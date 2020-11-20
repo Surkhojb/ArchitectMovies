@@ -1,7 +1,10 @@
 package com.surkhojb.architectmovies.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class MovieResult(
     val page: Int,
     val results: List<Result>,
@@ -9,8 +12,9 @@ data class MovieResult(
     val totalPages: Int,
     @SerializedName("total_results")
     val totalResults: Int
-)
+) : Parcelable
 
+@Parcelize
 data class Result(
     val adult: Boolean,
     @SerializedName("backdrop_path")
@@ -34,4 +38,4 @@ data class Result(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
-)
+) : Parcelable

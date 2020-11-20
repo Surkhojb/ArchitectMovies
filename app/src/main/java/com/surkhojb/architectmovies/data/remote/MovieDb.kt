@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object MovieDb {
-    private val BASE_URL = "https://www.themoviedb.org/"
+    private val BASE_URL = "https://api.themoviedb.org/3/"
 
     private val okHttpClient = HttpLoggingInterceptor().run{
         level = HttpLoggingInterceptor.Level.BODY
