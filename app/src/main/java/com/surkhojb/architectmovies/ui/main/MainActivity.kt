@@ -16,6 +16,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.single.BasePermissionListener
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.data.remote.MovieDb
+import com.surkhojb.architectmovies.data.repository.MoviesRepository
 import com.surkhojb.architectmovies.model.Result
 import com.surkhojb.architectmovies.ui.detail.DetailActivity
 import com.surkhojb.architectmovies.ui.detail.ITEM_KEY
@@ -29,23 +30,17 @@ import kotlin.coroutines.resume
 class MainActivity : AppCompatActivity() {
     lateinit var movieList: RecyclerView
     lateinit var movieAdapter: MovieAdapter
-    lateinit var locationClient: FusedLocationProviderClient
+    private val moviesRepository: MoviesRepository by lazy { MoviesRepository() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         configureView()
 
-        locationClient = LocationServices.getFusedLocationProviderClient(this)
-
         CoroutineScope(Dispatchers.IO).launch {
-            val location = getLocation()
-            val movies = MovieDb.service.getTopRated(
-                getString(R.string.api_key),
-                getRegion(location))
-
+            val movies = moviesRepository.findTopRatedMovies().results
             withContext(Dispatchers.Main){
-                movieAdapter.refreshMovies(movies.results)
+                movieAdapter.refreshMovies(movies)
             }
         }
     }
@@ -64,44 +59,4 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
-    private suspend fun getLocation(): Location? {
-        val success = requestLocationPermission()
-        return if (success) findLastLocation() else null
-    }
-
-    @SuppressLint("MissingPermission")
-    private suspend fun findLastLocation(): Location? {
-        return suspendCancellableCoroutine { continuation ->
-            locationClient.lastLocation.addOnCompleteListener {
-                continuation.resume(it.result)
-            }
-        }
-    }
-
-    private suspend fun requestLocationPermission(): Boolean {
-        return suspendCancellableCoroutine { continuation ->
-            Dexter.withContext(this)
-                .withPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                .withListener(object : BasePermissionListener() {
-                    override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
-                        continuation.resume(true)
-                    }
-
-                    override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
-                        continuation.resume(false)
-                    }
-                }).check()
-        }
-    }
-
-    private fun getRegion(location: Location?): String {
-        val geoCoder = Geocoder(this)
-        val fromLocation = location?.let {
-            geoCoder.getFromLocation(location.latitude,location.longitude,1)
-        }
-        return fromLocation?.firstOrNull()?.countryCode ?: "US"
-    }
-
-
 }
