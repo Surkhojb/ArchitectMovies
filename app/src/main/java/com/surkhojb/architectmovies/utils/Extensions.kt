@@ -1,11 +1,17 @@
+
 package com.surkhojb.architectmovies.utils
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.surkhojb.architectmovies.R
+import com.surkhojb.architectmovies.data.repository.MoviesRepository
+import com.surkhojb.architectmovies.ui.main.MainViewModel
 
 const val THUMBNAIL_BASE_URL = "https://image.tmdb.org/t/p/w185/"
 const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w1280/"
@@ -32,4 +38,14 @@ inline fun <reified T: Activity> Activity.launchActivity(extras: Bundle){
        putExtras(extras)
     }
     startActivity(intent)
+}
+
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
+
+    val vmFactory = object : ViewModelProvider.Factory {
+        override fun <U : ViewModel> create(modelClass: Class<U>): U = factory() as U
+    }
+
+    return ViewModelProvider(this, vmFactory).get(T::class.java)
 }
