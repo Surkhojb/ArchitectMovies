@@ -3,12 +3,14 @@ package com.surkhojb.architectmovies.ui.detail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View.GONE
+import android.view.View
+import android.view.View.*
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.data.remote.MovieDb
+import com.surkhojb.architectmovies.data.repository.MoviesRepository
 import com.surkhojb.architectmovies.model.Result
 import com.surkhojb.architectmovies.ui.main.adapter.MovieAdapter
 import com.surkhojb.architectmovies.ui.main.adapter.MoviewClickListener
@@ -16,6 +18,8 @@ import com.surkhojb.architectmovies.utils.ThumbnailType
 import com.surkhojb.architectmovies.utils.launchActivity
 import com.surkhojb.architectmovies.utils.loadFromUrl
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.activity_detail.loading_indicator
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +32,7 @@ const val ITEM_KEY = "item"
 class DetailActivity : AppCompatActivity() {
     lateinit var castList: RecyclerView
     lateinit var castAdapter: CastAdapter
+    private val moviesRepository by lazy {  MoviesRepository() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,11 +44,11 @@ class DetailActivity : AppCompatActivity() {
             buildDetail(movie)
             CoroutineScope(Dispatchers.IO).launch {
                 try{
-                    val actors = MovieDb.service.getCast(
-                        movie.id,
-                        getString(R.string.api_key))
+                    showIndicator(true)
+                    val actors = moviesRepository.loadCast(movie.id)
 
                     withContext(Dispatchers.Main) {
+                        showIndicator(false)
                         if(actors.cast.isNullOrEmpty()) {
                             hideCastArea()
                         } else {
@@ -52,6 +57,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }catch (exception: Exception){
                     withContext(Dispatchers.Main) {
+                        showIndicator(false)
                         hideCastArea()
                     }
                     Log.d(DetailActivity::class.java.name,exception.localizedMessage)
@@ -70,6 +76,20 @@ class DetailActivity : AppCompatActivity() {
         castList.hasFixedSize()
         castAdapter = CastAdapter()
         castList.adapter = castAdapter
+    }
+
+    private fun showIndicator(show: Boolean){
+        when(show){
+            true -> {
+                loading_indicator.visibility = VISIBLE
+                castList.visibility = INVISIBLE
+            }
+            false -> {
+
+                loading_indicator.visibility = GONE
+                castList.visibility = VISIBLE
+            }
+        }
     }
 
     private fun buildDetail(movie: Result?){

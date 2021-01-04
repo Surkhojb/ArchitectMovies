@@ -12,4 +12,6 @@ class MoviesRepository {
                                         getTopRated(
                                             apiKey,
                                             locationRepository.findLastRegion())
+
+    suspend fun loadCast(movieId: Int) = MovieDb.service.getCast(movieId, apiKey)
 }
