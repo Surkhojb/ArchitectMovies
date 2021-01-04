@@ -8,8 +8,11 @@ class MoviesRepository {
     private val apiKey = MainApp.getContext().getString(R.string.api_key)
     private val locationRepository = LocationRepository()
 
-    suspend fun findTopRatedMovies() = MovieDb.service.
-                                        getTopRated(
-                                            apiKey,
-                                            locationRepository.findLastRegion())
+    suspend fun findTopRatedMovies() = MovieDb.service.getTopRated(
+        apiKey,
+        locationRepository.findLastRegion()
+    )
+
+    suspend fun loadCast(movieId: Int) = MovieDb.service.getCast(movieId, apiKey)
+
 }

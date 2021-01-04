@@ -1,68 +1,86 @@
 package com.surkhojb.architectmovies.ui.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.view.View.INVISIBLE
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
-import com.surkhojb.architectmovies.data.remote.MovieDb
+import com.surkhojb.architectmovies.data.repository.MoviesRepository
+import com.surkhojb.architectmovies.model.Cast
 import com.surkhojb.architectmovies.model.Result
-import com.surkhojb.architectmovies.ui.main.adapter.MovieAdapter
-import com.surkhojb.architectmovies.ui.main.adapter.MoviewClickListener
 import com.surkhojb.architectmovies.utils.ThumbnailType
-import com.surkhojb.architectmovies.utils.launchActivity
 import com.surkhojb.architectmovies.utils.loadFromUrl
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
+import kotlinx.android.synthetic.main.activity_detail.loading_indicator
 import java.util.*
 
 const val ITEM_KEY = "item"
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), DetailPresenter.View {
     lateinit var castList: RecyclerView
     lateinit var castAdapter: CastAdapter
+    private var movie: Result? = null
+    private var detailPresenter = DetailPresenter(MoviesRepository())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        val movie = intent.getParcelableExtra<Result>(ITEM_KEY)
+        movie = intent.getParcelableExtra(ITEM_KEY)
+        detailPresenter.onCreate(this)
         configureView()
+        detailPresenter.tryToLoadCast(movie?.id ?: -1)
+    }
 
-        movie?.let {
-            buildDetail(movie)
-            CoroutineScope(Dispatchers.IO).launch {
-                try{
-                    val actors = MovieDb.service.getCast(
-                        movie.id,
-                        getString(R.string.api_key))
+    override fun showIndicator(show: Boolean) {
+        when(show){
+            true -> {
+                loading_indicator.visibility = VISIBLE
+                castList.visibility = INVISIBLE
+            }
+            false -> {
 
-                    withContext(Dispatchers.Main) {
-                        if(actors.cast.isNullOrEmpty()) {
-                            hideCastArea()
-                        } else {
-                            castAdapter.refreshCast(actors.cast.take(5))
-                        }
-                    }
-                }catch (exception: Exception){
-                    withContext(Dispatchers.Main) {
-                        hideCastArea()
-                    }
-                    Log.d(DetailActivity::class.java.name,exception.localizedMessage)
-                }
+                loading_indicator.visibility = GONE
+                castList.visibility = VISIBLE
             }
         }
     }
 
-    private fun hideCastArea() {
+    override fun refreshMovieCast(items: List<Cast>) {
+        castAdapter.refreshCast(items)
+    }
+
+    override fun hideCastArea() {
         detail_cast.visibility = GONE
         list_cast.visibility = GONE
+    }
+
+    override fun loadDetail() {
+        movie?.let {
+            detail_poster.loadFromUrl(ThumbnailType.POSTER,movie?.posterPath)
+            detail_average.text = String.format("%s / 10",movie?.voteAverage)
+            detail_popularity.text = movie?.popularity.toString()
+            detail_count.text = movie?.voteCount.toString()
+            detail_title.text = movie?.title
+            detail_overview.text = movie?.overview
+            detail_movie_info.text = buildSpannedString {
+                bold { append("Original language: ") }
+                appendLine(movie?.originalLanguage?.toUpperCase(Locale.getDefault()))
+                bold { append("Original title: ") }
+                appendLine(movie?.originalTitle)
+                bold { append("Release date: ") }
+                appendLine(movie?.releaseDate)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        detailPresenter.onDestroy()
+        super.onDestroy()
     }
 
     private fun configureView(){
@@ -70,24 +88,4 @@ class DetailActivity : AppCompatActivity() {
         castList.hasFixedSize()
         castAdapter = CastAdapter()
         castList.adapter = castAdapter
-    }
-
-    private fun buildDetail(movie: Result?){
-        movie?.let {
-            detail_poster.loadFromUrl(ThumbnailType.POSTER,movie.posterPath)
-            detail_average.text = String.format("%s / 10",movie.voteAverage)
-            detail_popularity.text = movie.popularity.toString()
-            detail_count.text = movie.voteCount.toString()
-            detail_title.text = movie.title
-            detail_overview.text = movie.overview
-            detail_movie_info.text = buildSpannedString {
-                bold { append("Original language: ") }
-                appendLine(movie.originalLanguage.toUpperCase(Locale.getDefault()))
-                bold { append("Original title: ") }
-                appendLine(movie.originalTitle)
-                bold { append("Release date: ") }
-                appendLine(movie.releaseDate)
-            }
-        }
-    }
-}
+    }}
