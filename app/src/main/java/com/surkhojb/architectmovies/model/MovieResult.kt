@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MovieResult(
     val page: Int,
+    @SerializedName("results")
     val movies: List<Movie>,
     @SerializedName("total_pages")
     val totalPages: Int,

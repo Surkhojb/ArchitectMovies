@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
-import com.surkhojb.architectmovies.model.Movie
+import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.utils.loadFromUrl
 import java.lang.IllegalArgumentException
 

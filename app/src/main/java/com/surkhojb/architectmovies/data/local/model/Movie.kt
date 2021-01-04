@@ -1,11 +1,13 @@
 package com.surkhojb.architectmovies.data.local.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 
-@Entity
-data class MovieDb(
-        @PrimaryKey(autoGenerate = true)
+@Entity(tableName = "movies")
+data class Movie(
+        @PrimaryKey(autoGenerate = false)
         val id: Int,
         val title: String,
         val overview: String,
@@ -16,5 +18,9 @@ data class MovieDb(
         val originalTitle: String,
         val popularity: Double,
         val voteAverage: Double,
-        val favorite: Boolean
+        val voteCount: Int,
+        val favorite: Boolean,
+        @TypeConverters(CastTypeConverter::class)
+        @ColumnInfo(name = "cast")
+        var cast: MovieCast?
 )

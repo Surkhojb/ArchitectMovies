@@ -3,9 +3,9 @@ package com.surkhojb.architectmovies.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import com.surkhojb.architectmovies.data.local.model.Cast
+import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.data.repository.MoviesRepository
-import com.surkhojb.architectmovies.model.Cast
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -20,6 +20,10 @@ class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel
     val cast: LiveData<List<Cast>>
         get() = _cast
 
+    private val _movie: MutableLiveData<Movie>  = MutableLiveData()
+    val movie: LiveData<Movie>
+        get() = _movie
+
     init {
         initScope()
     }
@@ -29,13 +33,21 @@ class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel
     fun loadCast(movieId: Int){
         launch {
             _indicator.value = true
-            _cast.value = moviesRepository.loadCast(movieId).cast.take(5)
+            _cast.value = moviesRepository.loadCast(movieId)?.take(5)
             _indicator.value = false
         }
     }
 
     override fun onCleared() {
         clearScope()
+    }
+
+    fun loadMovie(movieId: Int) {
+        launch {
+            _indicator.value = true
+            _movie.value = moviesRepository.getMovieById(movieId)
+            _indicator.value = false
+        }
     }
 
 }

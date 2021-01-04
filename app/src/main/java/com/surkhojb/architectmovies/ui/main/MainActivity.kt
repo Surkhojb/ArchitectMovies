@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.data.repository.MoviesRepository
-import com.surkhojb.architectmovies.model.Movie
+import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.ui.common.BaseActivity
 import com.surkhojb.architectmovies.ui.detail.DetailActivity
 import com.surkhojb.architectmovies.ui.detail.ITEM_KEY
@@ -67,7 +67,7 @@ class MainActivity : BaseActivity(){
         viewModel.navigate.observe(this, Observer {
             it.getContentIfNotHandled()?.let { movie ->
                 val bundle = Bundle()
-                bundle.putParcelable(ITEM_KEY,movie)
+                bundle.putInt(ITEM_KEY,movie.id)
 
                 launchActivity<DetailActivity>(bundle)
             }

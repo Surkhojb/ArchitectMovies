@@ -8,8 +8,8 @@ import androidx.core.text.buildSpannedString
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
+import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.data.repository.MoviesRepository
-import com.surkhojb.architectmovies.model.Movie
 import com.surkhojb.architectmovies.utils.ThumbnailType
 import com.surkhojb.architectmovies.utils.getViewModel
 import com.surkhojb.architectmovies.utils.loadFromUrl
@@ -29,12 +29,12 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel =  getViewModel { DetailViewModel(MoviesRepository()) }
 
-        val movie = intent.getParcelableExtra<Movie>(ITEM_KEY)
+        val movieId = intent.getIntExtra(ITEM_KEY,-1)
         configureView()
         setUpObservables()
-        buildDetail(movie)
 
-        viewModel.loadCast(movie?.id ?: -1 )
+        viewModel.loadMovie(movieId)
+        viewModel.loadCast(movieId)
     }
 
     private fun configureView(){
@@ -67,24 +67,26 @@ class DetailActivity : AppCompatActivity() {
             castAdapter.refreshCast(actors)
         }
         })
+
+        viewModel.movie.observe(this, Observer {
+            buildDetail(it)
+        })
     }
 
-    private fun buildDetail(movie: Movie?){
-        movie?.let {
-            detail_poster.loadFromUrl(ThumbnailType.POSTER,movie.posterPath)
-            detail_average.text = String.format("%s / 10",movie.voteAverage)
-            detail_popularity.text = movie.popularity.toString()
-            detail_count.text = movie.voteCount.toString()
-            detail_title.text = movie.title
-            detail_overview.text = movie.overview
-            detail_movie_info.text = buildSpannedString {
-                bold { append("Original language: ") }
-                appendLine(movie.originalLanguage.toUpperCase(Locale.getDefault()))
-                bold { append("Original title: ") }
-                appendLine(movie.originalTitle)
-                bold { append("Release date: ") }
-                appendLine(movie.releaseDate)
-            }
+    private fun buildDetail(movie: Movie){
+        detail_poster.loadFromUrl(ThumbnailType.POSTER,movie.posterPath)
+        detail_average.text = String.format("%s / 10",movie.voteAverage)
+        detail_popularity.text = movie.popularity.toString()
+        detail_count.text = movie.voteCount.toString()
+        detail_title.text = movie.title
+        detail_overview.text = movie.overview
+        detail_movie_info.text = buildSpannedString {
+            bold { append("Original language: ") }
+            appendLine(movie.originalLanguage.toUpperCase(Locale.getDefault()))
+            bold { append("Original title: ") }
+            appendLine(movie.originalTitle)
+            bold { append("Release date: ") }
+            appendLine(movie.releaseDate)
         }
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.surkhojb.architectmovies.data.repository.MoviesRepository
-import com.surkhojb.architectmovies.model.Movie
+import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.architectmovies.ui.common.Event
 import kotlinx.coroutines.Job
@@ -33,7 +33,7 @@ class MainViewModel(private val moviesRepository: MoviesRepository): ViewModel()
     fun fetchMovies(){
         launch {
             _indicator.value = true
-            _movies.value = moviesRepository.findTopRatedMovies().movies
+            _movies.value = moviesRepository.findTopRatedMovies()
             _indicator.value = false
         }
     }
