@@ -1,33 +1,23 @@
 package com.surkhojb.architectmovies.ui.main
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.location.Geocoder
-import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.single.BasePermissionListener
 import com.surkhojb.architectmovies.R
-import com.surkhojb.architectmovies.data.remote.MovieDb
 import com.surkhojb.architectmovies.data.repository.MoviesRepository
 import com.surkhojb.architectmovies.model.Result
+import com.surkhojb.architectmovies.ui.common.BaseActivity
 import com.surkhojb.architectmovies.ui.detail.DetailActivity
 import com.surkhojb.architectmovies.ui.detail.ITEM_KEY
 import com.surkhojb.architectmovies.ui.main.adapter.MovieAdapter
 import com.surkhojb.architectmovies.ui.main.adapter.MoviewClickListener
 import com.surkhojb.architectmovies.utils.launchActivity
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.resume
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity(){
     lateinit var movieList: RecyclerView
     lateinit var movieAdapter: MovieAdapter
     private val moviesRepository: MoviesRepository by lazy { MoviesRepository() }
@@ -37,10 +27,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         configureView()
 
-        CoroutineScope(Dispatchers.IO).launch {
+        launch {
+            showIndicator(true)
             val movies = moviesRepository.findTopRatedMovies().results
             withContext(Dispatchers.Main){
-                movieAdapter.refreshMovies(movies)
+               movieAdapter.refreshMovies(movies)
+               showIndicator(false)
             }
         }
     }
@@ -58,5 +50,19 @@ class MainActivity : AppCompatActivity() {
                 launchActivity<DetailActivity>(bundle)
             }
         })
+    }
+
+    private fun showIndicator(show: Boolean){
+        when(show){
+            true -> {
+                loading_indicator.visibility = View.VISIBLE
+                movieList.visibility = View.GONE
+            }
+            false -> {
+
+                loading_indicator.visibility = View.GONE
+                movieList.visibility = View.VISIBLE
+            }
+        }
     }
 }

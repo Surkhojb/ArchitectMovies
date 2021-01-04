@@ -17,4 +17,15 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:listitem="@layout/movie_item"/>
+
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/list_top_rated"
+        app:layout_constraintTop_toTopOf="@+id/list_top_rated"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
