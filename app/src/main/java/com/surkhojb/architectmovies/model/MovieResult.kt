@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MovieResult(
     val page: Int,
-    val results: List<Result>,
+    val movies: List<Movie>,
     @SerializedName("total_pages")
     val totalPages: Int,
     @SerializedName("total_results")
@@ -15,7 +15,7 @@ data class MovieResult(
 ) : Parcelable
 
 @Parcelize
-data class Result(
+data class Movie(
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdropPath: String,

@@ -7,17 +7,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
-import com.surkhojb.architectmovies.model.MovieResult
-import com.surkhojb.architectmovies.model.Result
+import com.surkhojb.architectmovies.model.Movie
 import com.surkhojb.architectmovies.utils.loadFromUrl
 import java.lang.IllegalArgumentException
 
 interface MoviewClickListener{
-    fun onMovieClicked(movie: Result)
+    fun onMovieClicked(movie: Movie)
 }
 
 class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
-    private var movies: List<Result>? = null
+    private var movies: List<Movie>? = null
     private var clickListener: MoviewClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -36,7 +35,7 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         }
     }
 
-    fun refreshMovies(updatedMovies: List<Result>){
+    fun refreshMovies(updatedMovies: List<Movie>){
         if (updatedMovies.isNullOrEmpty())
             return
 
@@ -55,7 +54,7 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         private val itemBackground: ImageView = itemView.findViewById(R.id.item_background)
         private val itemTitle: TextView = itemView.findViewById(R.id.item_title)
 
-       fun bind(movie:Result){
+       fun bind(movie:Movie){
            itemBackground.loadFromUrl(thumbnail = movie.posterPath)
            itemTitle.text = movie.title
            itemView.setOnClickListener(this)

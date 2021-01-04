@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.data.repository.MoviesRepository
-import com.surkhojb.architectmovies.model.Result
+import com.surkhojb.architectmovies.model.Movie
 import com.surkhojb.architectmovies.utils.ThumbnailType
 import com.surkhojb.architectmovies.utils.getViewModel
 import com.surkhojb.architectmovies.utils.loadFromUrl
@@ -29,7 +29,7 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel =  getViewModel { DetailViewModel(MoviesRepository()) }
 
-        val movie = intent.getParcelableExtra<Result>(ITEM_KEY)
+        val movie = intent.getParcelableExtra<Movie>(ITEM_KEY)
         configureView()
         setUpObservables()
         buildDetail(movie)
@@ -69,7 +69,7 @@ class DetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun buildDetail(movie: Result?){
+    private fun buildDetail(movie: Movie?){
         movie?.let {
             detail_poster.loadFromUrl(ThumbnailType.POSTER,movie.posterPath)
             detail_average.text = String.format("%s / 10",movie.voteAverage)

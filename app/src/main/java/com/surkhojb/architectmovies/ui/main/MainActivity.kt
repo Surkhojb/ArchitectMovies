@@ -3,11 +3,10 @@ package com.surkhojb.architectmovies.ui.main
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.data.repository.MoviesRepository
-import com.surkhojb.architectmovies.model.Result
+import com.surkhojb.architectmovies.model.Movie
 import com.surkhojb.architectmovies.ui.common.BaseActivity
 import com.surkhojb.architectmovies.ui.detail.DetailActivity
 import com.surkhojb.architectmovies.ui.detail.ITEM_KEY
@@ -40,7 +39,7 @@ class MainActivity : BaseActivity(){
         movieAdapter = MovieAdapter()
         movieList.adapter = movieAdapter
         movieAdapter.addClickListener(object : MoviewClickListener {
-            override fun onMovieClicked(movie: Result) {
+            override fun onMovieClicked(movie: Movie) {
                 viewModel.goToDetail(movie)
             }
         })

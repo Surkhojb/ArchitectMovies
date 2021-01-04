@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.model.Cast
-import com.surkhojb.architectmovies.model.Result
 import com.surkhojb.architectmovies.utils.loadFromUrl
 
 class CastAdapter: RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
