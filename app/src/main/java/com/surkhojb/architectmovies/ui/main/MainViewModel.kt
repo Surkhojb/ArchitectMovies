@@ -24,6 +24,8 @@ class MainViewModel(private val moviesRepository: MoviesRepository): ViewModel()
     val navigate: LiveData<Event<Movie>>
         get() = _navigate
 
+    var isLoadingMore = false
+
     init {
         initScope()
     }
@@ -33,9 +35,17 @@ class MainViewModel(private val moviesRepository: MoviesRepository): ViewModel()
     fun fetchMovies(){
         launch {
             _indicator.value = true
-            _movies.value = moviesRepository.findTopRatedMovies()
+            _movies.value = moviesRepository.findTopRatedMovies(false)
             _indicator.value = false
         }
+    }
+
+    fun fetchMoreMovies(loadMore: Boolean){
+        isLoadingMore = true
+        launch {
+            _movies.value = moviesRepository.findTopRatedMovies(loadMore)
+        }
+        isLoadingMore = false
     }
 
     fun goToDetail(movie: Movie){

@@ -39,12 +39,14 @@ fun <T: Any> RecyclerView.setItems(items: List<T>?){
     if(items?.get(0) is Movie){
         (adapter as MovieAdapter)?.let{
             it.refreshMovies(items as List<Movie>)
+            adapter?.notifyDataSetChanged()
         }
     }
 
     if (items?.get(0) is Cast){
         (adapter as CastAdapter)?.let {
             it.refreshCast(items as List<Cast>)
+            adapter?.notifyDataSetChanged()
         }
     }
 }

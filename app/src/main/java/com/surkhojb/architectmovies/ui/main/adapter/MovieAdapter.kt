@@ -5,18 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.data.local.model.Movie
+import com.surkhojb.architectmovies.ui.common.DiffCallback
 import com.surkhojb.architectmovies.utils.loadFromUrl
-import java.lang.IllegalArgumentException
+import java.util.*
 
 interface MoviewClickListener{
     fun onMovieClicked(movie: Movie)
 }
 
 class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
-    private var movies: List<Movie>? = null
+    private var movies: ArrayList<Movie> = arrayListOf()
     private var clickListener: MoviewClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -25,22 +27,18 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-       return movies?.count() ?: 0
+       return movies.count()
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = movies?.get(position)
-        movie?.let {
-            holder.bind(it)
-        }
+        val movie = movies[position]
+        holder.bind(movie)
     }
 
-    fun refreshMovies(updatedMovies: List<Movie>){
-        if (updatedMovies.isNullOrEmpty())
-            return
-
-        movies = updatedMovies
-        notifyDataSetChanged()
+    fun refreshMovies(moreMovies: List<Movie>){
+        val diffResult = DiffUtil.calculateDiff(DiffCallback(this.movies.toList(), moreMovies))
+        diffResult.dispatchUpdatesTo(this)
+        movies.addAll(moreMovies)
     }
 
     fun addClickListener(listener: MoviewClickListener?){
@@ -61,8 +59,8 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
        }
 
        override fun onClick(p0: View?) {
-          val movie = movies?.get(adapterPosition)
-           movie?.let {
+          val movie = movies[adapterPosition]
+           movie.let {
                clickListener?.onMovieClicked(movie)
            }
        }

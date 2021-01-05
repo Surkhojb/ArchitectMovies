@@ -1,6 +1,7 @@
 package com.surkhojb.architectmovies.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.databinding.ActivityMainBinding
 import com.surkhojb.architectmovies.ui.common.BaseActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
+import com.surkhojb.architectmovies.ui.common.OnLoadMoreItems
 import com.surkhojb.architectmovies.ui.detail.DetailActivity
 import com.surkhojb.architectmovies.ui.detail.ITEM_KEY
 import com.surkhojb.architectmovies.ui.main.adapter.MovieAdapter
@@ -18,6 +20,7 @@ import com.surkhojb.architectmovies.ui.main.adapter.MoviewClickListener
 import com.surkhojb.architectmovies.utils.getViewModel
 import com.surkhojb.architectmovies.utils.launchActivity
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : BaseActivity(){
     lateinit var movieList: RecyclerView
@@ -43,6 +46,7 @@ class MainActivity : BaseActivity(){
         })
     }
 
+    @Suppress("DEPRECATION")
     private fun configureView(){
         movieList = findViewById(R.id.list_top_rated)
         movieList.hasFixedSize()
@@ -51,6 +55,11 @@ class MainActivity : BaseActivity(){
         movieAdapter.addClickListener(object : MoviewClickListener {
             override fun onMovieClicked(movie: Movie) {
                 viewModel.goToDetail(movie)
+            }
+        })
+        movieList.setOnScrollListener(object : OnLoadMoreItems(){
+            override fun loadMoreItems() {
+                viewModel.fetchMoreMovies(true)
             }
         })
     }

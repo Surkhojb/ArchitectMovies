@@ -11,7 +11,8 @@ interface TheMovieDbService {
     @GET("movie/top_rated")
     suspend fun getTopRated(
         @Query("api_key") apiKey: String,
-        @Query("region") region: String
+        @Query("region") region: String,
+        @Query("page") page: Int? = null
     ): MovieResult
 
     @GET("movie/{movie_id}/credits")
