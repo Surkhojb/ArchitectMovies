@@ -26,7 +26,7 @@
         app:layout_constraintEnd_toEndOf="@+id/item_background"
         app:layout_constraintTop_toTopOf="@+id/item_background"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_favorite_24" />
+        app:srcCompat="@drawable/ic_favorite_on" />
 
     <TextView
         android:id="@+id/item_title"

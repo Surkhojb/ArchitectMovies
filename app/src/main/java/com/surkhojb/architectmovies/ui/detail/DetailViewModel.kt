@@ -24,6 +24,10 @@ class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel
     val movie: LiveData<Movie>
         get() = _movie
 
+    private val _isFavorite: MutableLiveData<Boolean> = MutableLiveData()
+    val favorite: LiveData<Boolean>
+        get() = _isFavorite
+
     init {
         initScope()
     }
@@ -38,16 +42,28 @@ class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel
         }
     }
 
-    override fun onCleared() {
-        clearScope()
-    }
-
     fun loadMovie(movieId: Int) {
         launch {
             _indicator.value = true
             _movie.value = moviesRepository.getMovieById(movieId)
+            _isFavorite.value = _movie.value?.favorite
             _indicator.value = false
         }
+    }
+
+    fun onFavoriteClicked(){
+        launch {
+            movie.value?.let {
+                val updatedMovie = it.copy(favorite = !it.favorite)
+                _movie.value = updatedMovie
+                moviesRepository.saveAsFavorite(updatedMovie)
+                _isFavorite.value = _movie.value?.favorite
+            }
+        }
+    }
+
+    override fun onCleared() {
+        clearScope()
     }
 
 }

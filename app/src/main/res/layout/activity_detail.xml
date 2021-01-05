@@ -48,8 +48,8 @@
                         android:id="@+id/detail_average"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
                         android:layout_marginTop="8dp"
                         android:drawableStart="@drawable/ic_imdb_logo"
                         android:drawablePadding="4dp"
@@ -66,8 +66,8 @@
                         android:id="@+id/detail_popularity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
                         android:drawableStart="@drawable/ic_thumb_up"
                         android:drawablePadding="4dp"
                         android:gravity="center_vertical"
@@ -84,19 +84,32 @@
                         android:id="@+id/detail_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:drawableStart="@drawable/ic_favorite_24"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:drawableStart="@drawable/ic_favorite_on"
                         android:drawablePadding="4dp"
                         android:gravity="center_vertical"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/detail_popularity"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_fav"
                         app:layout_constraintStart_toEndOf="@+id/detail_popularity"
                         app:layout_constraintTop_toTopOf="@+id/detail_popularity"
                         app:textFromInt="@{viewModel.movie.voteCount}" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_fav"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:clickable="true"
+                        android:onClick="@{()-> viewModel.onFavoriteClicked()}"
+                        app:isFavorite="@{viewModel.favorite}"
+                        app:layout_constraintBottom_toBottomOf="@+id/detail_poster"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/detail_poster"
+                        app:srcCompat="@drawable/ic_favorite_on"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
@@ -203,5 +216,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

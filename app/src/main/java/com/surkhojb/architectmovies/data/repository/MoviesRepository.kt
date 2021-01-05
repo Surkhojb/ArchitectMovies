@@ -2,14 +2,13 @@ package com.surkhojb.architectmovies.data.repository
 
 import com.surkhojb.architectmovies.MainApp
 import com.surkhojb.architectmovies.R
-import com.surkhojb.architectmovies.data.local.model.MovieCast
-import com.surkhojb.architectmovies.model.Cast as RemoteCast
-import com.surkhojb.architectmovies.data.local.model.Movie as DbMovie
-import com.surkhojb.architectmovies.data.local.model.Cast as Cast
-import com.surkhojb.architectmovies.model.Movie as RemoteMovie
+import com.surkhojb.architectmovies.data.local.model.Cast
+import com.surkhojb.architectmovies.data.mapper.mapToDbCast
+import com.surkhojb.architectmovies.data.mapper.mapToDbMovie
 import com.surkhojb.architectmovies.data.remote.MovieDb
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import com.surkhojb.architectmovies.data.local.model.Movie as DbMovie
 
 class MoviesRepository {
     private val apiKey = MainApp.getContext().getString(R.string.api_key)
@@ -45,6 +44,14 @@ class MoviesRepository {
 
     }
 
+    suspend fun getMovieById(movieId: Int): DbMovie = withContext(Dispatchers.IO){
+        movieDb.moviesDao().getMovieById(movieId)
+    }
+
+    suspend fun saveAsFavorite(movie: DbMovie) = withContext( Dispatchers.IO) {
+        updateMovie(movie)
+    }
+
     private suspend fun dbIsEmpty(): Boolean = withContext( Dispatchers.IO) {
         movieDb.moviesDao().count() <= 0
     }
@@ -57,10 +64,6 @@ class MoviesRepository {
         movieDb.moviesDao().getAll()
     }
 
-    suspend fun getMovieById(movieId: Int): DbMovie = withContext(Dispatchers.IO){
-        movieDb.moviesDao().getMovieById(movieId)
-    }
-
     private suspend fun getCast(movieId: Int): List<Cast>? = withContext( Dispatchers.IO) {
         movieDb.moviesDao().getMovieCast(movieId)?.cast
     }
@@ -68,34 +71,5 @@ class MoviesRepository {
     private suspend fun updateMovie(movie: DbMovie) = withContext(Dispatchers.IO){
         movieDb.moviesDao().updateMovie(movie)
     }
-
-    private fun RemoteMovie.mapToDbMovie() = DbMovie(
-        id,
-        title,
-        overview,
-        releaseDate,
-        posterPath,
-        backdropPath,
-        originalLanguage,
-        originalTitle,
-        popularity,
-        voteAverage,
-        voteCount,
-        false,
-        MovieCast(emptyList())
-    )
-
-    private fun RemoteCast.mapToDbCast() = Cast(
-        adult,
-        character,
-        credit_id,
-        gender, id,
-        known_for_department,
-        name,
-        order,
-        original_name,
-        popularity,
-        profile_path
-    )
 
 }

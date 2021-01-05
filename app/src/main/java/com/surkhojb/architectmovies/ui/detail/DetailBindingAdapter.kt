@@ -1,30 +1,14 @@
 package com.surkhojb.architectmovies.ui.detail
 
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.surkhojb.architectmovies.data.local.model.Cast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.data.local.model.Movie
-import com.surkhojb.architectmovies.ui.main.adapter.MovieAdapter
 import java.util.*
-
-@Suppress("UNCHECKED_CAST")
-@BindingAdapter("items")
-fun <T: Any> RecyclerView.setItems(items: List<T>?){
-    if(items?.get(0) is Movie){
-        (adapter as MovieAdapter)?.let{
-            it.refreshMovies(items as List<Movie>)
-        }
-    }
-
-    if (items?.get(0) is Cast){
-        (adapter as CastAdapter)?.let {
-            it.refreshCast(items as List<Cast>)
-        }
-    }
-}
 
 @BindingAdapter("buildInfo")
 fun TextView.text(movie: Movie?){
@@ -38,4 +22,10 @@ fun TextView.text(movie: Movie?){
             appendLine(it.releaseDate)
         }
     }
+}
+
+@BindingAdapter("isFavorite")
+fun FloatingActionButton.image(favorite: Boolean?){
+    val icon = if (favorite == true) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
+    setImageDrawable(ContextCompat.getDrawable(context,icon))
 }
