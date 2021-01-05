@@ -10,6 +10,7 @@ import com.surkhojb.architectmovies.data.repository.MoviesRepository
 import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.databinding.ActivityMainBinding
 import com.surkhojb.architectmovies.ui.common.BaseActivity
+import com.surkhojb.architectmovies.ui.common.EventObserver
 import com.surkhojb.architectmovies.ui.detail.DetailActivity
 import com.surkhojb.architectmovies.ui.detail.ITEM_KEY
 import com.surkhojb.architectmovies.ui.main.adapter.MovieAdapter
@@ -34,6 +35,12 @@ class MainActivity : BaseActivity(){
         configureView()
 
         viewModel.fetchMovies()
+
+        viewModel.navigate.observe(this, EventObserver { movie ->
+            val bundle = Bundle()
+            bundle.putInt(ITEM_KEY,movie.id)
+            launchActivity<DetailActivity>(bundle)
+        })
     }
 
     private fun configureView(){
