@@ -5,11 +5,13 @@ import android.view.View.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.data.repository.MoviesRepository
+import com.surkhojb.architectmovies.databinding.ActivityDetailBinding
 import com.surkhojb.architectmovies.utils.ThumbnailType
 import com.surkhojb.architectmovies.utils.getViewModel
 import com.surkhojb.architectmovies.utils.loadFromUrl
@@ -25,13 +27,14 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
-
         viewModel =  getViewModel { DetailViewModel(MoviesRepository()) }
+
+        val binding : ActivityDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         val movieId = intent.getIntExtra(ITEM_KEY,-1)
         configureView()
-        setUpObservables()
 
         viewModel.loadMovie(movieId)
         viewModel.loadCast(movieId)
@@ -44,49 +47,4 @@ class DetailActivity : AppCompatActivity() {
         castList.adapter = castAdapter
     }
 
-    private fun setUpObservables(){
-        viewModel.loading.observe(this, Observer {
-            when(it){
-                true -> {
-                    loading_indicator.visibility = VISIBLE
-                    castList.visibility = INVISIBLE
-                }
-                false -> {
-
-                    loading_indicator.visibility = GONE
-                    castList.visibility = VISIBLE
-                }
-            }
-        })
-
-        viewModel.cast.observe(this, Observer { actors ->
-        if(actors.isNullOrEmpty()) {
-            detail_cast.visibility = GONE
-            list_cast.visibility = GONE
-        } else {
-            castAdapter.refreshCast(actors)
-        }
-        })
-
-        viewModel.movie.observe(this, Observer {
-            buildDetail(it)
-        })
-    }
-
-    private fun buildDetail(movie: Movie){
-        detail_poster.loadFromUrl(ThumbnailType.POSTER,movie.posterPath)
-        detail_average.text = String.format("%s / 10",movie.voteAverage)
-        detail_popularity.text = movie.popularity.toString()
-        detail_count.text = movie.voteCount.toString()
-        detail_title.text = movie.title
-        detail_overview.text = movie.overview
-        detail_movie_info.text = buildSpannedString {
-            bold { append("Original language: ") }
-            appendLine(movie.originalLanguage.toUpperCase(Locale.getDefault()))
-            bold { append("Original title: ") }
-            appendLine(movie.originalTitle)
-            bold { append("Release date: ") }
-            appendLine(movie.releaseDate)
-        }
-    }
 }
