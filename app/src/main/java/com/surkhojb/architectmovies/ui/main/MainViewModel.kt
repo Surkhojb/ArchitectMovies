@@ -28,6 +28,7 @@ class MainViewModel(private val moviesRepository: MoviesRepository): ViewModel()
 
     init {
         initScope()
+        fetchMovies()
     }
 
     override lateinit var job: Job

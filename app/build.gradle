@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -17,6 +18,8 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
 
+        // Enabling multidex support.
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -66,6 +69,8 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.5'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha05"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
 
     //THIRD-PART LIBRARY
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

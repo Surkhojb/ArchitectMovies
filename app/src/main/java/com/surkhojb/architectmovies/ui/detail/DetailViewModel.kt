@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel(), CustomScope {
 
+    var movieId = -1
+
     private val _indicator: MutableLiveData<Boolean> = MutableLiveData()
     val loading: LiveData<Boolean>
         get() = _indicator
@@ -34,7 +36,12 @@ class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel
 
     override lateinit var job: Job
 
-    fun loadCast(movieId: Int){
+    fun loadDetail() {
+        loadMovie()
+        loadCast()
+    }
+
+    private fun loadCast(){
         launch {
             _indicator.value = true
             _cast.value = moviesRepository.loadCast(movieId)?.take(5)
@@ -42,7 +49,7 @@ class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel
         }
     }
 
-    fun loadMovie(movieId: Int) {
+    private fun loadMovie() {
         launch {
             _indicator.value = true
             _movie.value = moviesRepository.getMovieById(movieId)

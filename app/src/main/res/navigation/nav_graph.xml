@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    android:label="main nav graph"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.surkhojb.architectmovies.ui.main.MainFragment"
+        android:label="fragment_main">
+        <action
+            android:id="@+id/action_to_detail"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/translate_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/translate_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.surkhojb.architectmovies.ui.detail.DetailFragment"
+        android:label="fragment_detail">
+        <argument
+            android:name="movie_id"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <activity
+        android:id="@+id/rootActivity"
+        android:name="com.surkhojb.architectmovies.ui.RootActivity"
+        android:label="RootActivity" />
+</navigation>
