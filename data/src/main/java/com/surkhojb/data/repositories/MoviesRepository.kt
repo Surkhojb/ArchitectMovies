@@ -1,5 +1,8 @@
-package com.surkhojb.data
+package com.surkhojb.data.repositories
 
+import com.surkhojb.data.datasources.LocalDataSource
+import com.surkhojb.data.datasources.PreferencesDataSource
+import com.surkhojb.data.datasources.RemoteDataSource
 import com.surkhojb.domain.Cast
 import com.surkhojb.domain.Movie
 
@@ -44,24 +47,4 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
     suspend fun saveMovieAsFavorite(movie: Movie): Any {
         return localDataSource.updateMovie(movie)
     }
-}
-
-
-interface LocalDataSource{
-    suspend fun areMoviesCached(): Boolean
-    suspend fun cacheMovies(movies: List<Movie>)
-    suspend fun getTopRatedMovies(): List<Movie>
-    suspend fun getMovieCast(movieId: Int): List<Cast>
-    suspend fun getMovieById(movieId: Int): Movie
-    suspend fun updateMovie(movie: Movie)
-}
-
-interface RemoteDataSource {
-    suspend fun getTopRatedMovies(region: String,page: Int = 1): List<Movie>
-    suspend fun getMovieCast(movieId: Int): List<Cast>
-}
-
-interface PreferencesDataSource {
-    suspend fun pageToLoad(): Int
-    suspend fun updatePage()
 }

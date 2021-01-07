@@ -5,7 +5,7 @@ import android.location.Geocoder
 import android.location.Location
 import com.google.android.gms.location.LocationServices
 import com.surkhojb.architectmovies.MainApp
-import com.surkhojb.data.LocationDataSource
+import com.surkhojb.data.datasources.LocationDataSource
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 

@@ -4,7 +4,7 @@ import com.surkhojb.architectmovies.MainApp
 import com.surkhojb.architectmovies.data.mapper.mapToDomainCast
 import com.surkhojb.architectmovies.data.mapper.mapToDomainMovie
 import com.surkhojb.architectmovies.data.mapper.toRoomMovie
-import com.surkhojb.data.LocalDataSource
+import com.surkhojb.data.datasources.LocalDataSource
 import com.surkhojb.domain.Cast
 import com.surkhojb.domain.Movie
 import kotlinx.coroutines.Dispatchers

@@ -1,7 +1,7 @@
 package com.surkhojb.architectmovies.data.remote.retrofit
 
-import com.surkhojb.architectmovies.model.MovieCast
-import com.surkhojb.architectmovies.model.MovieResult
+import com.surkhojb.architectmovies.data.remote.model.MovieCast
+import com.surkhojb.architectmovies.data.remote.model.MovieResult
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

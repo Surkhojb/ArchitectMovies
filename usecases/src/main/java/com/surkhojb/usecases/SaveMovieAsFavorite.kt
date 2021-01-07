@@ -1,6 +1,6 @@
 package com.surkhojb.usecases
 
-import com.surkhojb.data.MoviesRepository
+import com.surkhojb.data.repositories.MoviesRepository
 import com.surkhojb.domain.Movie
 
 class SaveMovieAsFavorite(private val moviesRepository: MoviesRepository) {

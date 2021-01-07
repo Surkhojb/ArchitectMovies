@@ -4,17 +4,14 @@ import android.Manifest
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.karumi.dexter.listener.single.BasePermissionListener
 import com.surkhojb.architectmovies.MainApp
-import com.surkhojb.data.PermissionChecker
+import com.surkhojb.data.repositories.PermissionChecker
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class PermissionManager: PermissionChecker{
+class PermissionManager: PermissionChecker {
     private val context = MainApp.getContext()
 
     override suspend fun check(permissions: List<PermissionChecker.Permission>): Boolean {

@@ -1,7 +1,7 @@
 package com.surkhojb.architectmovies.data.local
 
 import com.surkhojb.architectmovies.MainApp
-import com.surkhojb.data.PreferencesDataSource
+import com.surkhojb.data.datasources.PreferencesDataSource
 import kotlinx.coroutines.flow.first
 
 class DataStoreDataSource: PreferencesDataSource {

@@ -1,6 +1,7 @@
-package com.surkhojb.data
+package com.surkhojb.data.repositories
 
-import com.surkhojb.data.PermissionChecker.Permission
+import com.surkhojb.data.datasources.LocationDataSource
+import com.surkhojb.data.repositories.PermissionChecker.Permission
 
 class RegionRepository(private val locationDataSource: LocationDataSource,
                        private val permissionChecker: PermissionChecker) {
@@ -14,9 +15,7 @@ class RegionRepository(private val locationDataSource: LocationDataSource,
     }
 }
 
-interface LocationDataSource{
-    suspend fun findLastLocation(): String?
-}
+
 
 interface PermissionChecker{
     enum class Permission { COARSE_LOCATION }

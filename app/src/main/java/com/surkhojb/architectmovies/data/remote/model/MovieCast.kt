@@ -1,4 +1,4 @@
-package com.surkhojb.architectmovies.model
+package com.surkhojb.architectmovies.data.remote.model
 
 data class MovieCast(
     val cast: List<Cast>

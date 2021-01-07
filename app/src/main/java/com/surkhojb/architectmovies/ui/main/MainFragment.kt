@@ -19,8 +19,8 @@ import com.surkhojb.architectmovies.ui.common.OnLoadMoreItems
 import com.surkhojb.architectmovies.ui.main.adapter.MovieAdapter
 import com.surkhojb.architectmovies.ui.main.adapter.MoviewClickListener
 import com.surkhojb.architectmovies.utils.getViewModel
-import com.surkhojb.data.MoviesRepository
-import com.surkhojb.data.RegionRepository
+import com.surkhojb.data.repositories.MoviesRepository
+import com.surkhojb.data.repositories.RegionRepository
 import com.surkhojb.domain.Movie
 import com.surkhojb.usecases.GetTopRatedMovies
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -40,15 +40,15 @@ class MainFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = getViewModel { MainViewModel(GetTopRatedMovies(
-            MoviesRepository(
-                RoomDataSource(),
-                DataStoreDataSource(),
-                TMDBDataSource(),
-                RegionRepository(
-                    PlayServicesDataSource(),
-                    PermissionManager()
-                )
-            ),getString(R.string.api_key))
+                MoviesRepository(
+                        RoomDataSource(),
+                        DataStoreDataSource(),
+                        TMDBDataSource(),
+                        RegionRepository(
+                                PlayServicesDataSource(),
+                                PermissionManager()
+                        )
+                ),getString(R.string.api_key))
         )}
 
         binding.viewModel = this.viewModel

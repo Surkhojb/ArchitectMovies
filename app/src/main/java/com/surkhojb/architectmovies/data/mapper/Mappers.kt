@@ -2,9 +2,9 @@ package com.surkhojb.architectmovies.data.mapper
 
 import com.surkhojb.architectmovies.data.local.room.model.MovieCast as RoomMovieCast
 import com.surkhojb.architectmovies.data.local.room.model.Cast as RoomCast
-import com.surkhojb.architectmovies.model.Cast as RemoteCast
+import com.surkhojb.architectmovies.data.remote.model.Cast as RemoteCast
 import com.surkhojb.architectmovies.data.local.room.model.Movie as RoomMovie
-import com.surkhojb.architectmovies.model.Movie as RemoteMovie
+import com.surkhojb.architectmovies.data.remote.model.Movie as RemoteMovie
 
 import com.surkhojb.domain.Movie  as DomainMovie
 import com.surkhojb.domain.Cast  as DomainCast

@@ -3,7 +3,7 @@ package com.surkhojb.architectmovies.data.remote
 import com.surkhojb.architectmovies.data.mapper.mapToDomainMovie
 import com.surkhojb.architectmovies.data.mapper.mapToDomainCast
 import com.surkhojb.architectmovies.data.remote.retrofit.MovieDb
-import com.surkhojb.data.RemoteDataSource
+import com.surkhojb.data.datasources.RemoteDataSource
 import com.surkhojb.domain.Cast
 import com.surkhojb.domain.Movie
 
