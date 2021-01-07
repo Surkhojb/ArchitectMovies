@@ -3,14 +3,18 @@ package com.surkhojb.architectmovies.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.surkhojb.architectmovies.data.local.model.Cast
-import com.surkhojb.architectmovies.data.local.model.Movie
-import com.surkhojb.architectmovies.data.repository.MoviesRepository
 import com.surkhojb.architectmovies.ui.common.CustomScope
+import com.surkhojb.domain.Cast
+import com.surkhojb.domain.Movie
+import com.surkhojb.usecases.GetMovieById
+import com.surkhojb.usecases.GetMovieCast
+import com.surkhojb.usecases.SaveMovieAsFavorite
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel(), CustomScope {
+class DetailViewModel(private val getMovieCast: GetMovieCast,
+                      private val getMovieById: GetMovieById,
+                      private val saveMovieAsFavorite: SaveMovieAsFavorite): ViewModel(), CustomScope {
 
     var movieId = -1
 
@@ -44,7 +48,7 @@ class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel
     private fun loadCast(){
         launch {
             _indicator.value = true
-            _cast.value = moviesRepository.loadCast(movieId)?.take(5)
+            _cast.value = getMovieCast.invoke(movieId)?.take(5)
             _indicator.value = false
         }
     }
@@ -52,7 +56,7 @@ class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel
     private fun loadMovie() {
         launch {
             _indicator.value = true
-            _movie.value = moviesRepository.getMovieById(movieId)
+            _movie.value = getMovieById.invoke(movieId)
             _isFavorite.value = _movie.value?.favorite
             _indicator.value = false
         }
@@ -63,7 +67,7 @@ class DetailViewModel(private val moviesRepository: MoviesRepository): ViewModel
             movie.value?.let {
                 val updatedMovie = it.copy(favorite = !it.favorite)
                 _movie.value = updatedMovie
-                moviesRepository.saveAsFavorite(updatedMovie)
+                saveMovieAsFavorite.invoke(updatedMovie)
                 _isFavorite.value = _movie.value?.favorite
             }
         }

@@ -7,7 +7,7 @@ import androidx.core.text.buildSpannedString
 import androidx.databinding.BindingAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.surkhojb.architectmovies.R
-import com.surkhojb.architectmovies.data.local.model.Movie
+import com.surkhojb.domain.Movie
 import java.util.*
 
 @BindingAdapter("buildInfo")

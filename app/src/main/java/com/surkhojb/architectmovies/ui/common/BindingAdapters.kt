@@ -5,11 +5,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.surkhojb.architectmovies.data.local.model.Cast
-import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.ui.detail.CastAdapter
 import com.surkhojb.architectmovies.ui.main.adapter.MovieAdapter
 import com.surkhojb.architectmovies.utils.loadFromUrl
+import com.surkhojb.domain.Cast
+import com.surkhojb.domain.Movie
 
 @BindingAdapter("visible")
 fun View.setVisible(visible: Boolean?) {
@@ -36,6 +36,9 @@ fun TextView.text(value: Int?) {
 @Suppress("UNCHECKED_CAST")
 @BindingAdapter("items")
 fun <T: Any> RecyclerView.setItems(items: List<T>?){
+    if(items?.size == 0)
+        return
+
     if(items?.get(0) is Movie){
         (adapter as MovieAdapter)?.let{
             it.refreshMovies(items as List<Movie>)

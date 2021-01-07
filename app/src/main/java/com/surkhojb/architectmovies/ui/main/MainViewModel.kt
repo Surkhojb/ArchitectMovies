@@ -3,14 +3,14 @@ package com.surkhojb.architectmovies.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.surkhojb.architectmovies.data.repository.MoviesRepository
-import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.architectmovies.ui.common.Event
+import com.surkhojb.domain.Movie
+import com.surkhojb.usecases.GetTopRatedMovies
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val moviesRepository: MoviesRepository): ViewModel(),CustomScope {
+class MainViewModel(private val getTopRatedMovies: GetTopRatedMovies): ViewModel(),CustomScope {
 
     private val _indicator: MutableLiveData<Boolean>  = MutableLiveData()
     val loading: LiveData<Boolean>
@@ -36,15 +36,15 @@ class MainViewModel(private val moviesRepository: MoviesRepository): ViewModel()
     fun fetchMovies(){
         launch {
             _indicator.value = true
-            _movies.value = moviesRepository.findTopRatedMovies(false)
+            _movies.value = getTopRatedMovies.invoke()
             _indicator.value = false
         }
     }
 
-    fun fetchMoreMovies(loadMore: Boolean){
+    fun fetchMoreMovies(){
         isLoadingMore = true
         launch {
-            _movies.value = moviesRepository.findTopRatedMovies(loadMore)
+            _movies.value = getTopRatedMovies.invoke(true)
         }
         isLoadingMore = false
     }

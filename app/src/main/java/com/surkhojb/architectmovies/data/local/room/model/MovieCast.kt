@@ -1,4 +1,4 @@
-package com.surkhojb.architectmovies.data.local.model
+package com.surkhojb.architectmovies.data.local.room.model
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

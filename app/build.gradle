@@ -48,8 +48,11 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation project(":data")
+    implementation project(":domain")
+    implementation project(":usecases")
 
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
     //TEST AREA
     testImplementation 'junit:junit:4.+'

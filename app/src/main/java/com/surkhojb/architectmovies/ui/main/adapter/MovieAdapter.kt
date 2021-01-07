@@ -8,9 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
-import com.surkhojb.architectmovies.data.local.model.Movie
 import com.surkhojb.architectmovies.ui.common.DiffCallback
 import com.surkhojb.architectmovies.utils.loadFromUrl
+import com.surkhojb.domain.Movie
 import java.util.*
 
 interface MoviewClickListener{

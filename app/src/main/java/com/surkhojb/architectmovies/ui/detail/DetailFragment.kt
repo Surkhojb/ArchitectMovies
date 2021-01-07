@@ -6,13 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
-import com.surkhojb.architectmovies.data.repository.MoviesRepository
+import com.surkhojb.architectmovies.common.PermissionManager
+import com.surkhojb.architectmovies.common.PlayServicesDataSource
+import com.surkhojb.architectmovies.data.local.DataStoreDataSource
+import com.surkhojb.architectmovies.data.local.RoomDataSource
+import com.surkhojb.architectmovies.data.remote.TMDBDataSource
 import com.surkhojb.architectmovies.databinding.FragmentDetailBinding
 import com.surkhojb.architectmovies.utils.getViewModel
+import com.surkhojb.data.MoviesRepository
+import com.surkhojb.data.RegionRepository
+import com.surkhojb.usecases.GetMovieById
+import com.surkhojb.usecases.GetMovieCast
+import com.surkhojb.usecases.SaveMovieAsFavorite
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 class DetailFragment : Fragment() {
@@ -31,7 +38,19 @@ class DetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel =  getViewModel { DetailViewModel(MoviesRepository()) }
+        val moviesRepository = MoviesRepository(
+            RoomDataSource(),
+            DataStoreDataSource(),
+            TMDBDataSource(),
+            RegionRepository(
+                PlayServicesDataSource(),
+                PermissionManager())
+        )
+        viewModel =  getViewModel {
+            DetailViewModel(
+                GetMovieCast(moviesRepository),
+                GetMovieById(moviesRepository),
+                SaveMovieAsFavorite(moviesRepository)) }
         viewModel.movieId = args.movieId
         viewModel.loadDetail()
 
