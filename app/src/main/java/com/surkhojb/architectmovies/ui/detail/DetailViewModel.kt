@@ -65,9 +65,7 @@ class DetailViewModel(private val getMovieCast: GetMovieCast,
     fun onFavoriteClicked(){
         launch {
             movie.value?.let {
-                val updatedMovie = it.copy(favorite = !it.favorite)
-                _movie.value = updatedMovie
-                saveMovieAsFavorite.invoke(updatedMovie)
+                _movie.value = saveMovieAsFavorite.invoke(it)
                 _isFavorite.value = _movie.value?.favorite
             }
         }

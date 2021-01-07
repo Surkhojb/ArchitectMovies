@@ -40,7 +40,7 @@ fun RemoteCast.mapToDomainCast() = DomainCast(
 )
 
 fun DomainMovie.toRoomMovie(): RoomMovie = RoomMovie(
-        id,
+    id,
     title,
     overview,
     releaseDate,
@@ -51,7 +51,7 @@ fun DomainMovie.toRoomMovie(): RoomMovie = RoomMovie(
     popularity,
     voteAverage,
     voteCount,
-    false,
+    favorite,
     RoomMovieCast(emptyList())
 )
 
@@ -67,7 +67,7 @@ fun RoomMovie.mapToDomainMovie(): DomainMovie = DomainMovie(
     popularity,
     voteAverage,
     voteCount,
-    false,
+    favorite,
     DomainMovieCast(emptyList())
 )
 
