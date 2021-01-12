@@ -37,8 +37,8 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     fun refreshMovies(moreMovies: List<Movie>){
         val diffResult = DiffUtil.calculateDiff(DiffCallback(this.movies.toList(), moreMovies))
-        diffResult.dispatchUpdatesTo(this)
         movies.addAll(moreMovies)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun addClickListener(listener: MoviewClickListener?){
