@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.ui.detail.CastAdapter
 import com.surkhojb.architectmovies.ui.top_rated.adapter.MovieAdapter
+import com.surkhojb.architectmovies.utils.ThumbnailType
 import com.surkhojb.architectmovies.utils.loadFromUrl
 import com.surkhojb.domain.Cast
 import com.surkhojb.domain.Movie
@@ -21,6 +22,11 @@ fun View.setVisible(visible: Boolean?) {
 @BindingAdapter("url")
 fun ImageView.bindUrl(url: String?) {
     if (url != null) loadFromUrl(thumbnail = url)
+}
+
+@BindingAdapter("urlPoster")
+fun ImageView.bindUrlPoster(url: String?) {
+    if (url != null) loadFromUrl(thumbnail = url, type = ThumbnailType.POSTER)
 }
 
 @BindingAdapter("textFromDouble")

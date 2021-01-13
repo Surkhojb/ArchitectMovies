@@ -18,7 +18,7 @@
             android:id="@+id/appbar"
             android:backgroundTint="@color/white"
             android:fitsSystemWindows="true"
-            android:layout_height="260dp"
+            android:layout_height="490dp"
             android:layout_width="match_parent">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -31,18 +31,18 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/detail_container"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp">
+                    android:layout_height="490dp">
 
                 <ImageView
                     android:id="@+id/detail_poster"
                     android:layout_width="match_parent"
-                    android:layout_height="190dp"
-                    android:scaleType="centerCrop"
+                    android:layout_height="430dp"
+                    android:scaleType="matrix"
                     app:layout_collapseMode="parallax"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:url="@{viewModel.movie.posterPath}"/>
+                    app:urlPoster="@{viewModel.movie.posterPath}"/>
 
                     <TextView
                         android:id="@+id/detail_average"
