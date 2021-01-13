@@ -47,4 +47,12 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
     suspend fun saveMovieAsFavorite(movie: Movie): Any {
         return localDataSource.updateMovie(movie)
     }
+
+    suspend fun getNewestMovies(): List<Movie>{
+        val movies = remoteDataSource.getNewestMovies()
+        localDataSource.cacheMovies(movies).also {
+            preferencesDataSource.updatePage()
+            return movies
+        }
+    }
 }

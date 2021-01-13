@@ -18,4 +18,7 @@ interface TheMovieDbService {
     suspend fun getCast(
         @Path("movie_id") movieId: Int
     ): MovieCast
+
+    @GET("movie/now_playing")
+    suspend fun getNewest(): MovieResult
 }

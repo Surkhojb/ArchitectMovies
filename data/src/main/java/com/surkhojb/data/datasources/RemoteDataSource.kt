@@ -6,4 +6,5 @@ import com.surkhojb.domain.Movie
 interface RemoteDataSource {
     suspend fun getTopRatedMovies(region: String,page: Int = 1): List<Movie>
     suspend fun getMovieCast(movieId: Int): List<Cast>
+    suspend fun getNewestMovies(): List<Movie>
 }
