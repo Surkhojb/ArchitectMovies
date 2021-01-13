@@ -26,10 +26,10 @@ import com.surkhojb.usecases.GetTopRatedMovies
 import kotlinx.android.synthetic.main.fragment_main.*
 
 
-class MainFragment : Fragment(){
+class TopRatedFragment : Fragment(){
     private lateinit var binding: FragmentMainBinding
     lateinit var movieAdapter: MovieAdapter
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: TopRatedViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.fragment_main,container,false)
@@ -39,7 +39,7 @@ class MainFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = getViewModel { MainViewModel(GetTopRatedMovies(
+        viewModel = getViewModel { TopRatedViewModel(GetTopRatedMovies(
                 MoviesRepository(
                         RoomDataSource(),
                         DataStoreDataSource(),
@@ -52,12 +52,12 @@ class MainFragment : Fragment(){
         )}
 
         binding.viewModel = this.viewModel
-        binding.lifecycleOwner = this@MainFragment
+        binding.lifecycleOwner = this@TopRatedFragment
 
         configureView()
 
         viewModel.navigate.observe(viewLifecycleOwner, EventObserver { movie ->
-            val action = MainFragmentDirections.actionToDetail(movie.id)
+            val action = TopRatedFragmentDirections.actionToDetail(movie.id)
             findNavController().navigate(action)
         })
     }

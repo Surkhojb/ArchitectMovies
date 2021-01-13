@@ -3,6 +3,8 @@ package com.surkhojb.architectmovies.ui.main.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -17,7 +19,7 @@ interface MoviewClickListener{
     fun onMovieClicked(movie: Movie)
 }
 
-class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(){
     private var movies: ArrayList<Movie> = arrayListOf()
     private var clickListener: MoviewClickListener? = null
 

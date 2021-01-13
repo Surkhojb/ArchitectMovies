@@ -10,7 +10,7 @@ import com.surkhojb.usecases.GetTopRatedMovies
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val getTopRatedMovies: GetTopRatedMovies): ViewModel(),CustomScope {
+class TopRatedViewModel(private val getTopRatedMovies: GetTopRatedMovies): ViewModel(),CustomScope {
 
     private val _indicator: MutableLiveData<Boolean>  = MutableLiveData()
     val loading: LiveData<Boolean>
