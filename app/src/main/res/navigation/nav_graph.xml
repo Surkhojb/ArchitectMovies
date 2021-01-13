@@ -7,7 +7,7 @@
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.surkhojb.architectmovies.ui.main.TopRatedFragment"
+        android:name="com.surkhojb.architectmovies.ui.top_rated.TopRatedFragment"
         android:label="fragment_main">
         <action
             android:id="@+id/action_to_detail"

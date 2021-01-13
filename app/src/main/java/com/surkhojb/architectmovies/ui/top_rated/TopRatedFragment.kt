@@ -1,4 +1,4 @@
-package com.surkhojb.architectmovies.ui.main
+package com.surkhojb.architectmovies.ui.top_rated
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,8 +16,8 @@ import com.surkhojb.architectmovies.data.remote.TMDBDataSource
 import com.surkhojb.architectmovies.databinding.FragmentMainBinding
 import com.surkhojb.architectmovies.ui.common.EventObserver
 import com.surkhojb.architectmovies.ui.common.OnLoadMoreItems
-import com.surkhojb.architectmovies.ui.main.adapter.MovieAdapter
-import com.surkhojb.architectmovies.ui.main.adapter.MoviewClickListener
+import com.surkhojb.architectmovies.ui.top_rated.adapter.MovieAdapter
+import com.surkhojb.architectmovies.ui.top_rated.adapter.MoviewClickListener
 import com.surkhojb.architectmovies.utils.getViewModel
 import com.surkhojb.data.repositories.MoviesRepository
 import com.surkhojb.data.repositories.RegionRepository

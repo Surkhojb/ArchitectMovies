@@ -1,4 +1,4 @@
-package com.surkhojb.architectmovies.ui.main
+package com.surkhojb.architectmovies.ui.top_rated
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
