@@ -44,6 +44,19 @@
             app:popExitAnim="@anim/translate_out" />
     </fragment>
 
+    <fragment
+        android:id="@+id/search"
+        android:name="com.surkhojb.architectmovies.ui.search.SearchFragment"
+        android:label="search_fragment">
+        <action
+            android:id="@+id/action_to_detail"
+            app:destination="@id/detail"
+            app:enterAnim="@anim/translate_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/translate_out" />
+    </fragment>
+
     <activity
         android:id="@+id/detail"
         android:name="com.surkhojb.architectmovies.ui.detail.DetailActivity"

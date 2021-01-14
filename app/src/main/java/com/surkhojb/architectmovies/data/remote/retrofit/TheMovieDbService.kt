@@ -11,7 +11,7 @@ interface TheMovieDbService {
     @GET("movie/top_rated")
     suspend fun getTopRated(
       @Query("region") region: String,
-        @Query("page") page: Int? = null
+      @Query("page") page: Int? = null
     ): MovieResult
 
     @GET("movie/{movie_id}/credits")
@@ -21,4 +21,8 @@ interface TheMovieDbService {
 
     @GET("movie/now_playing")
     suspend fun getNewest(): MovieResult
+
+    @GET("search/movie")
+    suspend fun searchMovie(
+    @Query("query") query: String) : MovieResult
 }

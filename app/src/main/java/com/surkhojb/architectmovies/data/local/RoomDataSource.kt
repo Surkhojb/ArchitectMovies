@@ -13,17 +13,17 @@ import kotlinx.coroutines.withContext
 class RoomDataSource: LocalDataSource {
     private val moviesDao = MainApp.getDb().moviesDao()
 
-    override suspend fun areMoviesCached(): Boolean = withContext(Dispatchers.IO) {
-        moviesDao.count() > 0
+    override suspend fun areMoviesCached(type: String): Boolean = withContext(Dispatchers.IO) {
+        moviesDao.count(type) > 0
     }
 
-    override suspend fun cacheMovies(movies: List<Movie>) = withContext(Dispatchers.IO)  {
-        val roomMovies = movies.map { it.toRoomMovie() }
+    override suspend fun cacheMovies(type: String, movies: List<Movie>) = withContext(Dispatchers.IO)  {
+        val roomMovies = movies.map { it.toRoomMovie(type) }
         moviesDao.insertMovies(roomMovies)
     }
 
-    override suspend fun getTopRatedMovies(): List<Movie>  = withContext(Dispatchers.IO) {
-        moviesDao.getAll().map { it.mapToDomainMovie() }
+    override suspend fun getMoviesByType(type: String): List<Movie> = withContext(Dispatchers.IO) {
+        moviesDao.getAll().filter { it.movieType == type }.map { it.mapToDomainMovie() }
     }
 
     override suspend fun getFavorites(): List<Movie> = withContext(Dispatchers.IO){

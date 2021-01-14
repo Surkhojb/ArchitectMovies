@@ -12,16 +12,16 @@ import com.surkhojb.domain.MovieCast  as DomainMovieCast
 
 fun RemoteMovie.mapToDomainMovie() = DomainMovie(
     id,
-    title,
-    overview,
+    title ?: "",
+    overview ?: "",
     releaseDate,
-    posterPath,
-    backdropPath,
-    originalLanguage,
-    originalTitle,
-    popularity,
+    posterPath ?: "",
+    backdropPath ?: "",
+    originalLanguage ?: "",
+    originalTitle ?: "",
+    popularity?: 0.0,
     voteAverage,
-    voteCount,
+    voteCount ?: 0,
     false,
     DomainMovieCast(emptyList())
 )
@@ -39,7 +39,7 @@ fun RemoteCast.mapToDomainCast() = DomainCast(
     profile_path
 )
 
-fun DomainMovie.toRoomMovie(): RoomMovie = RoomMovie(
+fun DomainMovie.toRoomMovie(type: String = "top_rated"): RoomMovie = RoomMovie(
     id,
     title,
     overview,
@@ -52,7 +52,8 @@ fun DomainMovie.toRoomMovie(): RoomMovie = RoomMovie(
     voteAverage,
     voteCount,
     favorite,
-    RoomMovieCast(emptyList())
+    RoomMovieCast(emptyList()),
+    movieType = type
 )
 
 fun RoomMovie.mapToDomainMovie(): DomainMovie = DomainMovie(

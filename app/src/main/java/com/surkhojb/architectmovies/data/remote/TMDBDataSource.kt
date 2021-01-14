@@ -19,4 +19,8 @@ class TMDBDataSource: RemoteDataSource {
     override suspend fun getNewestMovies(): List<Movie> {
         return MovieDb.service.getNewest().movies.map { it.mapToDomainMovie() }
     }
+
+    override suspend fun searchMovie(query: String): List<Movie> {
+        return MovieDb.service.searchMovie(query).movies.map { it.mapToDomainMovie() }
+    }
 }

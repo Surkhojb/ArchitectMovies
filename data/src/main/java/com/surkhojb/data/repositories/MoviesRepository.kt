@@ -6,6 +6,11 @@ import com.surkhojb.data.datasources.RemoteDataSource
 import com.surkhojb.domain.Cast
 import com.surkhojb.domain.Movie
 
+
+private const val TOP_RATED = "top_rated"
+private const val NEWEST_TYPE = "newest"
+private const val SEARCH = "search"
+
 class MoviesRepository(private val localDataSource: LocalDataSource,
                        private val preferencesDataSource: PreferencesDataSource,
                        private val remoteDataSource: RemoteDataSource,
@@ -13,17 +18,17 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
 
     suspend fun getTopRatedMovies(loadingMore: Boolean): List<Movie>{
         if(!localDataSource.areMoviesCached() || loadingMore ){
-            var pageToLoad = preferencesDataSource.pageToLoad()
+            val pageToLoad = preferencesDataSource.pageToLoad()
 
             val movies = remoteDataSource.getTopRatedMovies(regionRepository.findLastRegion(),pageToLoad)
 
-            localDataSource.cacheMovies(movies).also {
+            localDataSource.cacheMovies(TOP_RATED,movies).also {
                 preferencesDataSource.updatePage()
                 return movies
             }
         }
 
-        return localDataSource.getTopRatedMovies()
+        return localDataSource.getMoviesByType()
     }
 
     suspend fun getMovieCast(movieId: Int): List<Cast>{
@@ -49,14 +54,28 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
     }
 
     suspend fun getNewestMovies(): List<Movie>{
-        val movies = remoteDataSource.getNewestMovies()
-        localDataSource.cacheMovies(movies).also {
-            preferencesDataSource.updatePage()
-            return movies
+        if(!localDataSource.areMoviesCached(NEWEST_TYPE)) {
+            val movies = remoteDataSource.getNewestMovies()
+            localDataSource.cacheMovies(NEWEST_TYPE, movies)
+            return localDataSource.getMoviesByType(NEWEST_TYPE)
         }
+
+        return localDataSource.getMoviesByType(NEWEST_TYPE)
     }
 
     suspend fun getFavorites(): List<Movie> {
         return localDataSource.getFavorites()
+    }
+
+    // TODO -> Save in cache last search to load fragment by default with the last search
+    suspend fun searchMovies(query: String): List<Movie>{
+        if(!localDataSource.areMoviesCached(SEARCH)){
+            val movies = remoteDataSource.searchMovie(query)
+            localDataSource.cacheMovies(SEARCH,movies)
+            return localDataSource.getMoviesByType(SEARCH)
+        }
+
+        return localDataSource.getMoviesByType(SEARCH)
+
     }
 }

@@ -22,5 +22,6 @@ data class Movie(
         val favorite: Boolean,
         @TypeConverters(CastTypeConverter::class)
         @ColumnInfo(name = "cast")
-        var cast: MovieCast?
+        var cast: MovieCast?,
+        var movieType: String
 )

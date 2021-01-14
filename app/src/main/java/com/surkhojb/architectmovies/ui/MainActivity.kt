@@ -21,5 +21,9 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        fab.setOnClickListener {
+            navigateTo(R.id.nav_host_fragment_container,R.id.search)
+        }
     }
 }
