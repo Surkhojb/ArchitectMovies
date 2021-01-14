@@ -17,14 +17,9 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.menu_top_rated -> navigateTo(R.id.nav_host_fragment_container,R.id.topRated)
                 R.id.menu_newest -> navigateTo(R.id.nav_host_fragment_container,R.id.newest)
-                R.id.menu_favorite -> goToFavorite()
+                R.id.menu_favorite -> navigateTo(R.id.nav_host_fragment_container,R.id.favorites)
                 else -> false
             }
         }
-    }
-
-    private fun goToFavorite(): Boolean {
-        Toast.makeText(this, "Feature not implemented yet!", Toast.LENGTH_SHORT).show()
-        return true
     }
 }

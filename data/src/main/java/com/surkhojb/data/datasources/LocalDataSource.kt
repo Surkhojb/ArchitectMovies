@@ -7,6 +7,7 @@ interface LocalDataSource{
     suspend fun areMoviesCached(): Boolean
     suspend fun cacheMovies(movies: List<Movie>)
     suspend fun getTopRatedMovies(): List<Movie>
+    suspend fun getFavorites(): List<Movie>
     suspend fun getMovieCast(movieId: Int): List<Cast>
     suspend fun getMovieById(movieId: Int): Movie
     suspend fun updateMovie(movie: Movie)

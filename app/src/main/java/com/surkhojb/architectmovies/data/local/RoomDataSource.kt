@@ -26,6 +26,10 @@ class RoomDataSource: LocalDataSource {
         moviesDao.getAll().map { it.mapToDomainMovie() }
     }
 
+    override suspend fun getFavorites(): List<Movie> = withContext(Dispatchers.IO){
+        moviesDao.getAll().filter { it.favorite }.map { it.mapToDomainMovie() }
+    }
+
     override suspend fun getMovieCast(movieId: Int): List<Cast>  = withContext(Dispatchers.IO) {
         moviesDao.getMovieCast(movieId).cast.map { it.mapToDomainCast() }
     }

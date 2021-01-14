@@ -55,4 +55,8 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
             return movies
         }
     }
+
+    suspend fun getFavorites(): List<Movie> {
+        return localDataSource.getFavorites()
+    }
 }
