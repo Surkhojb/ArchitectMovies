@@ -21,6 +21,8 @@ class TMDBDataSource: RemoteDataSource {
     }
 
     override suspend fun searchMovie(query: String): List<Movie> {
-        return MovieDb.service.searchMovie(query).movies.map { it.mapToDomainMovie() }
+        return MovieDb.service.searchMovie(query).movies
+            .filter { it.posterPath != null }
+            .map { it.mapToDomainMovie() }
     }
 }
