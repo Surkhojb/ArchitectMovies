@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    android:label="main nav graph"
+    app:startDestination="@id/topRated">
+    <fragment
+        android:id="@+id/topRated"
+        android:name="com.surkhojb.architectmovies.ui.top_rated.TopRatedFragment"
+        android:label="fragment_main">
+        <action
+            android:id="@+id/action_to_detail"
+            app:destination="@id/detail"
+            app:enterAnim="@anim/translate_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/translate_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newest"
+        android:name="com.surkhojb.architectmovies.ui.newest.NewestFragment"
+        android:label="newest_fragment">
+    <action
+        android:id="@+id/action_to_detail"
+        app:destination="@id/detail"
+        app:enterAnim="@anim/translate_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/translate_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favorites"
+        android:name="com.surkhojb.architectmovies.ui.favorite.FavoritesFragment"
+        android:label="favorites_fragment">
+        <action
+            android:id="@+id/action_to_detail"
+            app:destination="@id/detail"
+            app:enterAnim="@anim/translate_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/translate_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/search"
+        android:name="com.surkhojb.architectmovies.ui.search.SearchFragment"
+        android:label="search_fragment">
+        <action
+            android:id="@+id/action_to_detail"
+            app:destination="@id/detail"
+            app:enterAnim="@anim/translate_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/translate_out" />
+    </fragment>
+
+    <activity
+        android:id="@+id/detail"
+        android:name="com.surkhojb.architectmovies.ui.detail.DetailActivity"
+        android:label="fragment_detail">
+        <argument
+            android:name="movie_id"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </activity>
+
+</navigation>

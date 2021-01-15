@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ArchitectMovies</string>
+    <string name="api_key">cc0fba5e2e944d686f8aa373cbcf9e83</string>
 </resources>
