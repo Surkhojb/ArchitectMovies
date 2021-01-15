@@ -14,6 +14,7 @@ import com.surkhojb.architectmovies.data.local.DataStoreDataSource
 import com.surkhojb.architectmovies.data.local.RoomDataSource
 import com.surkhojb.architectmovies.data.remote.TMDBDataSource
 import com.surkhojb.architectmovies.databinding.FragmentNewestBinding
+import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
 import com.surkhojb.architectmovies.ui.common.OnLoadMoreItems
 import com.surkhojb.architectmovies.ui.top_rated.adapter.MovieAdapter
@@ -23,6 +24,7 @@ import com.surkhojb.data.repositories.MoviesRepository
 import com.surkhojb.data.repositories.RegionRepository
 import com.surkhojb.domain.Movie
 import com.surkhojb.usecases.GetNewestMovies
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_newest.*
 
 
@@ -59,6 +61,14 @@ class NewestFragment : Fragment(){
             val action = NewestFragmentDirections.actionToDetail(movie.id)
             findNavController().navigate(action)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val activity = (activity as MainActivity)
+        if(activity.fab.visibility == View.GONE){
+            activity.fab.show()
+        }
     }
 
     private fun configureView(){

@@ -2,7 +2,6 @@ package com.surkhojb.architectmovies.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.utils.navigateTo
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fab.setOnClickListener {
+            fab.hide()
             navigateTo(R.id.nav_host_fragment_container,R.id.search)
         }
     }
