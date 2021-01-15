@@ -74,6 +74,13 @@ class SearchFragment : Fragment() {
             }
         })
 
+        search_view.apply {
+            queryHint = "Search a movie."
+            isIconified = false
+            requestFocus()
+            callOnClick()
+        }
+
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.searchMovie(query.toString())
