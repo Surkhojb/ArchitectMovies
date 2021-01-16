@@ -52,8 +52,4 @@ class TopRatedViewModel(private val getTopRatedMovies: GetTopRatedMovies): ViewM
     fun goToDetail(movie: Movie){
         _navigate.value = Event(movie)
     }
-
-    override fun onCleared() {
-        clearScope()
-    }
 }

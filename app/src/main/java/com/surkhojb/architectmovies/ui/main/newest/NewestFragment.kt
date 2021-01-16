@@ -7,27 +7,23 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.surkhojb.architectmovies.MainApp
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.databinding.FragmentNewestBinding
 import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
 import com.surkhojb.architectmovies.ui.common.OnLoadMoreItems
-import com.surkhojb.architectmovies.ui.main.MainActivityComponent
-import com.surkhojb.architectmovies.ui.main.MainActivityModule
 import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
 import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListener
-import com.surkhojb.architectmovies.utils.getViewModel
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_newest.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class NewestFragment : Fragment(){
     private lateinit var binding: FragmentNewestBinding
     lateinit var movieAdapter: MovieAdapter
-    private lateinit var component: MainActivityComponent
-    private val viewModel: NewestViewModel by lazy { getViewModel { component.newestViewModel } }
+    private val viewModel: NewestViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.fragment_newest,container,false)
@@ -36,8 +32,6 @@ class NewestFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        component = MainApp.component.plus((activity as MainActivity).mainActivityModule)
 
         binding.viewModel = this.viewModel
         binding.lifecycleOwner = this@NewestFragment
