@@ -61,21 +61,29 @@ fun Application.initKoin() {
     }
 
     private val scopeModules = module {
+        scope(named<TopRatedFragment>()){
+            viewModel { TopRatedViewModel(get()) }
+            scoped { GetTopRatedMovies(get()) }
+        }
+        scope(named<NewestFragment>()) {
+            viewModel { NewestViewModel(get()) }
+            scoped { GetNewestMovies(get()) }
+        }
 
-        viewModel { TopRatedViewModel(get()) }
-        single { GetTopRatedMovies(get()) }
+        scope(named<SearchFragment>()) {
+            viewModel { SearchViewModel(get()) }
+            scoped { SearchMovie(get()) }
+        }
 
-        viewModel { NewestViewModel(get()) }
-        single { GetNewestMovies(get()) }
+        scope(named<FavoritesFragment>()) {
+            viewModel { FavoriteViewModel(get()) }
+            scoped { GetFavorites(get()) }
+        }
 
-        viewModel { SearchViewModel(get()) }
-        single { SearchMovie(get()) }
-
-        viewModel { FavoriteViewModel(get()) }
-        single { GetFavorites(get()) }
-
-        viewModel { DetailViewModel(get(), get(), get()) }
-        single { GetMovieCast(get()) }
-        single { GetMovieById(get()) }
-        single { SaveMovieAsFavorite(get()) }
+        scope(named<DetailActivity>()) {
+            viewModel { DetailViewModel(get(), get(), get()) }
+            scoped { GetMovieCast(get()) }
+            scoped { GetMovieById(get()) }
+            scoped { SaveMovieAsFavorite(get()) }
+        }
     }

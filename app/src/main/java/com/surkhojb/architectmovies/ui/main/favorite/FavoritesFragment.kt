@@ -16,10 +16,11 @@ import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListene
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_favorites.*
+import org.koin.androidx.scope.ScopeFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class FavoritesFragment : Fragment(){
+class FavoritesFragment : ScopeFragment(){
     private lateinit var binding: FragmentFavoritesBinding
     lateinit var movieAdapter: MovieAdapter
     private val viewModel: FavoriteViewModel by viewModel()

@@ -17,10 +17,11 @@ import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListene
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_newest.*
+import org.koin.androidx.scope.ScopeFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class NewestFragment : Fragment(){
+class NewestFragment : ScopeFragment(){
     private lateinit var binding: FragmentNewestBinding
     lateinit var movieAdapter: MovieAdapter
     private val viewModel: NewestViewModel by viewModel()

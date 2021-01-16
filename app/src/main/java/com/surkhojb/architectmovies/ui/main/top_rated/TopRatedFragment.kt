@@ -18,10 +18,11 @@ import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListene
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_top_rated.*
+import org.koin.androidx.scope.ScopeFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class TopRatedFragment : Fragment(){
+class TopRatedFragment : ScopeFragment(){
     private lateinit var binding: FragmentTopRatedBinding
     lateinit var movieAdapter: MovieAdapter
     private val viewModel: TopRatedViewModel by viewModel()

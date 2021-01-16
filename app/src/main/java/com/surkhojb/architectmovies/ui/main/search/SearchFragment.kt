@@ -15,9 +15,10 @@ import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
 import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListener
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.fragment_search.*
+import org.koin.androidx.scope.ScopeFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchFragment : Fragment() {
+class SearchFragment : ScopeFragment() {
 
     private lateinit var binding: FragmentSearchBinding
     lateinit var movieAdapter: MovieAdapter
