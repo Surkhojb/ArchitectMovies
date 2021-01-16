@@ -7,8 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.R
-import com.surkhojb.architectmovies.data.local.model.Cast
 import com.surkhojb.architectmovies.utils.loadFromUrl
+import com.surkhojb.domain.Cast
 
 class CastAdapter: RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
     private var cast: List<Cast>? = null
