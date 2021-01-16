@@ -1,6 +1,5 @@
 package com.surkhojb.architectmovies.data.local
 
-import com.surkhojb.architectmovies.MainApp
 import com.surkhojb.architectmovies.data.mapper.mapToDomainCast
 import com.surkhojb.architectmovies.data.mapper.mapToDomainMovie
 import com.surkhojb.architectmovies.data.mapper.toRoomMovie
@@ -10,8 +9,7 @@ import com.surkhojb.domain.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RoomDataSource: LocalDataSource {
-    private val moviesDao = MainApp.getDb().moviesDao()
+class RoomDataSource(private val moviesDao: MovieDao): LocalDataSource {
 
     override suspend fun areMoviesCached(type: String): Boolean = withContext(Dispatchers.IO) {
         moviesDao.count(type) > 0

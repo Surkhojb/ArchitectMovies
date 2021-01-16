@@ -6,29 +6,21 @@ import androidx.room.Room
 import androidx.datastore.preferences.createDataStore
 import com.surkhojb.architectmovies.data.local.MoviesDatabase
 import com.surkhojb.architectmovies.data.local.DataStoreSource
+import com.surkhojb.architectmovies.di.DaggerMainAppComponent
+import com.surkhojb.architectmovies.di.MainAppComponent
 
 class MainApp : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
-        context = applicationContext
 
-        movieDb = Room.databaseBuilder(this,MoviesDatabase::class.java,"movies")
-            .build()
-
-        val dataStore = applicationContext.createDataStore("settings")
-
-        dataStoreSource = DataStoreSource(dataStore)
+        component = DaggerMainAppComponent
+            .factory()
+            .create(this)
     }
 
     companion object{
-        private lateinit var context: Context
-        private lateinit var movieDb: MoviesDatabase
-        private lateinit var dataStoreSource: DataStoreSource
-
-        fun getContext() = context
-        fun getDb() = movieDb
-        fun getDataStoreSource() = dataStoreSource
+        lateinit var component: MainAppComponent
+            private set
     }
 }

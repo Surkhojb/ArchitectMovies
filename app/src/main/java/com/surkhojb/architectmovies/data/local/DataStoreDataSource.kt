@@ -4,9 +4,7 @@ import com.surkhojb.architectmovies.MainApp
 import com.surkhojb.data.datasources.PreferencesDataSource
 import kotlinx.coroutines.flow.first
 
-class DataStoreDataSource: PreferencesDataSource {
-
-    private val dataStore = MainApp.getDataStoreSource()
+class DataStoreDataSource(private val dataStore: DataStoreSource): PreferencesDataSource {
 
     override suspend fun pageToLoad(): Int {
         return dataStore.getPage().first()
