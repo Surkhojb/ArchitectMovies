@@ -6,13 +6,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.surkhojb.architectmovies.ui.search.SearchViewModel" />
+            type="com.surkhojb.architectmovies.ui.main.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.top_rated.TopRatedFragment">
+        tools:context=".ui.main.top_rated.TopRatedFragment">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

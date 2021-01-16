@@ -1,27 +1,21 @@
 package com.surkhojb.architectmovies.di
 
 import android.app.Application
-import com.surkhojb.architectmovies.ui.detail.DetailViewModel
-import com.surkhojb.architectmovies.ui.favorite.FavoriteViewModel
-import com.surkhojb.architectmovies.ui.newest.NewestViewModel
-import com.surkhojb.architectmovies.ui.search.SearchViewModel
-import com.surkhojb.architectmovies.ui.top_rated.TopRatedViewModel
+import com.surkhojb.architectmovies.ui.detail.DetailActivityComponent
+import com.surkhojb.architectmovies.ui.detail.DetailActivityModule
+import com.surkhojb.architectmovies.ui.main.MainActivityComponent
+import com.surkhojb.architectmovies.ui.main.MainActivityModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = arrayOf(AppModule::class, DataModule::class,
-    UseCasesModule::class, ViewModelsModule::class))
+@Component(modules = arrayOf(AppModule::class, DataModule::class))
 interface MainAppComponent {
 
-    //Exposed viewModel for a easy injection
-    var topRatedViewModel: TopRatedViewModel
-    val detailViewModel: DetailViewModel
-    val newestViewModel: NewestViewModel
-    val favoriteViewModel: FavoriteViewModel
-    val searchViewModel: SearchViewModel
+    fun plus(module: MainActivityModule): MainActivityComponent
+    fun plus(module: DetailActivityModule): DetailActivityComponent
 
     @Component.Factory
     interface Factory {

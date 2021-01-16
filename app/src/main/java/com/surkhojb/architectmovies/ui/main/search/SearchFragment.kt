@@ -1,4 +1,4 @@
-package com.surkhojb.architectmovies.ui.search
+package com.surkhojb.architectmovies.ui.main.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +11,12 @@ import androidx.navigation.fragment.findNavController
 import com.surkhojb.architectmovies.MainApp
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.databinding.FragmentSearchBinding
+import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
-import com.surkhojb.architectmovies.ui.top_rated.adapter.MovieAdapter
-import com.surkhojb.architectmovies.ui.top_rated.adapter.MoviewClickListener
+import com.surkhojb.architectmovies.ui.main.MainActivityComponent
+import com.surkhojb.architectmovies.ui.main.MainActivityModule
+import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
+import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListener
 import com.surkhojb.architectmovies.utils.getViewModel
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -22,7 +25,8 @@ class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     lateinit var movieAdapter: MovieAdapter
-    private val viewModel: SearchViewModel by lazy { getViewModel { MainApp.component.searchViewModel } }
+    private lateinit var component: MainActivityComponent
+    private val viewModel: SearchViewModel by lazy { getViewModel { component.searchViewModel } }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -32,6 +36,8 @@ class SearchFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        component = MainApp.component.plus((activity as MainActivity).mainActivityModule)
 
         binding.viewModel = this.viewModel
         binding.lifecycleOwner = this@SearchFragment

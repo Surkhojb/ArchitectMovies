@@ -1,4 +1,4 @@
-package com.surkhojb.architectmovies.ui.search
+package com.surkhojb.architectmovies.ui.main.top_rated
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,20 +6,21 @@ import androidx.lifecycle.ViewModel
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.architectmovies.ui.common.Event
 import com.surkhojb.domain.Movie
-import com.surkhojb.usecases.SearchMovie
+import com.surkhojb.usecases.GetTopRatedMovies
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SearchViewModel(private val searchMovies: SearchMovie) : ViewModel(), CustomScope {
-    private val _indicator: MutableLiveData<Boolean> = MutableLiveData()
+class TopRatedViewModel(private val getTopRatedMovies: GetTopRatedMovies): ViewModel(),CustomScope {
+
+    private val _indicator: MutableLiveData<Boolean>  = MutableLiveData()
     val loading: LiveData<Boolean>
         get() = _indicator
 
-    private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
+    private val _movies: MutableLiveData<List<Movie>>  = MutableLiveData()
     val movies: LiveData<List<Movie>>
         get() = _movies
 
-    private val _navigate: MutableLiveData<Event<Movie>> = MutableLiveData()
+    private val _navigate: MutableLiveData<Event<Movie>>  = MutableLiveData()
     val navigate: LiveData<Event<Movie>>
         get() = _navigate
 
@@ -27,16 +28,25 @@ class SearchViewModel(private val searchMovies: SearchMovie) : ViewModel(), Cust
 
     init {
         initScope()
+        fetchMovies()
     }
 
     override lateinit var job: Job
 
-    fun searchMovie(query: String){
+    fun fetchMovies(){
         launch {
             _indicator.value = true
-            _movies.value = searchMovies.invoke(query)
+            _movies.value = getTopRatedMovies.invoke()
             _indicator.value = false
         }
+    }
+
+    fun fetchMoreMovies(){
+        isLoadingMore = true
+        launch {
+            _movies.value = getTopRatedMovies.invoke(true)
+        }
+        isLoadingMore = false
     }
 
     fun goToDetail(movie: Movie){

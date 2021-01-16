@@ -13,11 +13,14 @@ import kotlinx.android.synthetic.main.activity_detail.*
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val args: DetailActivityArgs by navArgs()
-    private val viewModel: DetailViewModel by lazy { getViewModel { MainApp.component.detailViewModel } }
+    private lateinit var component: DetailActivityComponent
+    private val viewModel: DetailViewModel by lazy { getViewModel { component.detailViewModel } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_detail)
+
+        component = MainApp.component.plus(DetailActivityModule())
 
         viewModel.movieId = args.movieId
         viewModel.loadDetail()

@@ -1,4 +1,4 @@
-package com.surkhojb.architectmovies.ui.top_rated.adapter
+package com.surkhojb.architectmovies.ui.main.top_rated.adapter
 
 import android.view.LayoutInflater
 import android.view.View
