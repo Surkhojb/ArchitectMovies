@@ -1,14 +1,19 @@
 package com.surkhojb.architectmovies.ui.main.search
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.surkhojb.architectmovies.MainApp
+import com.google.android.material.chip.Chip
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.databinding.FragmentSearchBinding
 import com.surkhojb.architectmovies.ui.MainActivity
@@ -52,6 +57,10 @@ class SearchFragment : Fragment() {
             findNavController().navigate(action)
         })
 
+        viewModel.searchs.observe(viewLifecycleOwner, Observer {
+            buildChips(it)
+        })
+
     }
 
     private fun configureView(){
@@ -83,6 +92,21 @@ class SearchFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun buildChips(list: List<String>){
+        if(list.isNullOrEmpty()) return
+
+        list.forEach { item ->
+            binding.chipGroup.addView(Chip(requireContext()).apply {
+                text = item
+                chipIcon = ContextCompat.getDrawable(context,R.drawable.ic_fab_search)
+                chipIconTint = ColorStateList.valueOf(Color.BLACK)
+                isClickable = true
+                setOnClickListener { binding.searchView.setQuery(item,false) }
+            })
+            binding.chipGroup.visibility = View.VISIBLE
+        }
     }
 
 }
