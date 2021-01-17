@@ -117,6 +117,7 @@ class SearchFragment : ScopeFragment() {
         list.forEach { item ->
             binding.chipGroup.addView(Chip(requireContext()).apply {
                 text = item
+                textSize = 12f
                 chipIcon = ContextCompat.getDrawable(context,R.drawable.ic_fab_search)
                 chipIconTint = ColorStateList.valueOf(Color.BLACK)
                 isClickable = true

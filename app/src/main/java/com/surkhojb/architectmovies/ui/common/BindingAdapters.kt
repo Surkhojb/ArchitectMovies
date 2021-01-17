@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.surkhojb.architectmovies.ui.detail.CastAdapter
-import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
+import com.surkhojb.architectmovies.ui.common.adapter.MovieAdapter
 import com.surkhojb.architectmovies.utils.ThumbnailType
 import com.surkhojb.architectmovies.utils.loadFromUrl
 import com.surkhojb.domain.Cast

@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.databinding.FragmentFavoritesBinding
 import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
-import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
-import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListener
+import com.surkhojb.architectmovies.ui.common.adapter.MovieAdapter
+import com.surkhojb.architectmovies.ui.common.adapter.MoviewClickListener
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_favorites.*
