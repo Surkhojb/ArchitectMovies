@@ -67,16 +67,16 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
         return localDataSource.getFavorites()
     }
 
-    // TODO -> Save in cache last search to load fragment by default with the last search
     suspend fun searchMovies(query: String): List<Movie>{
-        if(!localDataSource.areMoviesCached(SEARCH)){
-            val movies = remoteDataSource.searchMovie(query)
+        return remoteDataSource.searchMovie(query).also {movies ->
+            localDataSource.removeLastSearch()
             localDataSource.cacheMovies(SEARCH,movies)
-            return localDataSource.getMoviesByType(SEARCH)
         }
 
-        return localDataSource.getMoviesByType(SEARCH)
+    }
 
+    suspend fun loadLastSearch(): List<Movie>{
+        return localDataSource.getMoviesByType(SEARCH)
     }
 
     suspend fun getLastSearchs(): List<String>{

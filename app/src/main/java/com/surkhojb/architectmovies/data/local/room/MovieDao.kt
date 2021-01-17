@@ -35,6 +35,12 @@ interface MovieDao {
     fun getMovieSearchs(): MovieSearchs?
 
     @Insert(onConflict = IGNORE)
+    fun insertMovieSearchs(movieSearchs: MovieSearchs)
+
+    @Update
     fun updateMovieSearchs(movieSearchs: MovieSearchs)
+
+    @Query("DELETE from movies WHERE movieType = 'search'")
+    fun removeLastSearch()
 
 }

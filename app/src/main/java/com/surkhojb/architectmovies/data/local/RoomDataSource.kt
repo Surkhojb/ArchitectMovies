@@ -41,18 +41,27 @@ class RoomDataSource(private val moviesDao: MovieDao): LocalDataSource {
         moviesDao.updateMovie(movie.toRoomMovie())
     }
 
-    override suspend fun getWordsSearched(): ArrayList<String> = withContext(Dispatchers.IO) {
-        moviesDao.getMovieSearchs()?.wordsSearched ?: arrayListOf()
+    override suspend fun getWordsSearched(): List<String> = withContext(Dispatchers.IO) {
+        moviesDao.getMovieSearchs()?.wordsSearched?.take(5) ?: arrayListOf()
     }
 
     override suspend fun updateWordsSearched(query: String): Boolean = withContext(Dispatchers.IO) {
         val movieSearchs = moviesDao.getMovieSearchs()
-        movieSearchs?.wordsSearched?.add(query)
+
+
         if(movieSearchs == null){
-            moviesDao.updateMovieSearchs(MovieSearchs().apply {
-                wordsSearched?.add(query)
+            moviesDao.insertMovieSearchs(MovieSearchs().apply {
+                wordsSearched.add(query)
             })
-        }
+        }else if (movieSearchs.wordsSearched.contains(query) == false){
+                movieSearchs.wordsSearched.add(query)
+                moviesDao.updateMovieSearchs(movieSearchs)
+                true
+            }
         true
+    }
+
+    override suspend fun removeLastSearch() = withContext(Dispatchers.IO){
+       moviesDao.removeLastSearch()
     }
 }

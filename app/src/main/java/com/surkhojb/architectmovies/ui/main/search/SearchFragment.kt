@@ -17,8 +17,6 @@ import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.databinding.FragmentSearchBinding
 import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
-import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
-import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListener
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.androidx.scope.ScopeFragment
@@ -27,7 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SearchFragment : ScopeFragment() {
 
     private lateinit var binding: FragmentSearchBinding
-    lateinit var movieAdapter: MovieAdapter
+    lateinit var movieAdapter: SearchMovieAdapter
     private val viewModel: SearchViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +50,10 @@ class SearchFragment : ScopeFragment() {
             findNavController().navigate(action)
         })
 
+        viewModel.movies.observe(viewLifecycleOwner, Observer {
+            movieAdapter.refreshMovies(it)
+        })
+
         viewModel.searchs.observe(viewLifecycleOwner, Observer {
             buildChips(it)
         })
@@ -59,7 +61,7 @@ class SearchFragment : ScopeFragment() {
     }
 
     private fun configureView(){
-        movieAdapter = MovieAdapter()
+        movieAdapter = SearchMovieAdapter()
 
         list_search.adapter = movieAdapter
 
@@ -92,13 +94,15 @@ class SearchFragment : ScopeFragment() {
     private fun buildChips(list: List<String>){
         if(list.isNullOrEmpty()) return
 
+        binding.chipGroup.removeAllViews()
+
         list.forEach { item ->
             binding.chipGroup.addView(Chip(requireContext()).apply {
                 text = item
                 chipIcon = ContextCompat.getDrawable(context,R.drawable.ic_fab_search)
                 chipIconTint = ColorStateList.valueOf(Color.BLACK)
                 isClickable = true
-                setOnClickListener { binding.searchView.setQuery(item,false) }
+                setOnClickListener { binding.searchView.setQuery(item,true) }
             })
             binding.chipGroup.visibility = View.VISIBLE
         }
