@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.databinding.FragmentSearchBinding
+import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
 import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
 import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListener
@@ -26,6 +27,9 @@ class SearchFragment : ScopeFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        val activity = (activity as MainActivity)
+        activity.supportActionBar?.title = getString(R.string.search_title)
+
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.fragment_search,container,false)
         return binding.root
     }

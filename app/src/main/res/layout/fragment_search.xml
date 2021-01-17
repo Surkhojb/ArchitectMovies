@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/light_background"
         tools:context=".ui.main.top_rated.TopRatedFragment">
 
         <androidx.cardview.widget.CardView
@@ -53,8 +54,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/list_top_rated"
-            app:layout_constraintTop_toTopOf="@+id/list_top_rated"
+            app:layout_constraintStart_toStartOf="@+id/list_search"
+            app:layout_constraintTop_toTopOf="@+id/list_search"
             app:visible="@{viewModel.loading}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

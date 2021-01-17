@@ -7,9 +7,10 @@ import androidx.navigation.navArgs
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.databinding.ActivityDetailBinding
 import kotlinx.android.synthetic.main.activity_detail.*
+import org.koin.androidx.scope.ScopeActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : ScopeActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val args: DetailActivityArgs by navArgs()
     private val viewModel: DetailViewModel by viewModel()
