@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.architectmovies.ui.common.Event
 import com.surkhojb.domain.Movie
+import com.surkhojb.usecases.LastSearchs
 import com.surkhojb.usecases.SearchMovie
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SearchViewModel(private val searchMovies: SearchMovie) : ViewModel(), CustomScope {
+class SearchViewModel(private val searchMovies: SearchMovie,
+private val lastSearchs: LastSearchs) : ViewModel(), CustomScope {
     private val _indicator: MutableLiveData<Boolean> = MutableLiveData()
     val loading: LiveData<Boolean>
         get() = _indicator
@@ -18,6 +20,10 @@ class SearchViewModel(private val searchMovies: SearchMovie) : ViewModel(), Cust
     private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
     val movies: LiveData<List<Movie>>
         get() = _movies
+
+    private val _searchs: MutableLiveData<List<String>> = MutableLiveData()
+    val searchs: LiveData<List<String>>
+        get() = _searchs
 
     private val _navigate: MutableLiveData<Event<Movie>> = MutableLiveData()
     val navigate: LiveData<Event<Movie>>
@@ -27,6 +33,7 @@ class SearchViewModel(private val searchMovies: SearchMovie) : ViewModel(), Cust
 
     init {
         initScope()
+        recoverLastSearchs()
     }
 
     override lateinit var job: Job
@@ -35,6 +42,15 @@ class SearchViewModel(private val searchMovies: SearchMovie) : ViewModel(), Cust
         launch {
             _indicator.value = true
             _movies.value = searchMovies.invoke(query)
+            lastSearchs.put(query)
+            _indicator.value = false
+        }
+    }
+
+    fun recoverLastSearchs(){
+        launch {
+            _indicator.value = true
+            _searchs.value = lastSearchs.get()
             _indicator.value = false
         }
     }

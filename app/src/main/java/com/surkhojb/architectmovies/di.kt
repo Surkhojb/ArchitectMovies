@@ -71,8 +71,9 @@ fun Application.initKoin() {
         }
 
         scope(named<SearchFragment>()) {
-            viewModel { SearchViewModel(get()) }
+            viewModel { SearchViewModel(get(),get()) }
             scoped { SearchMovie(get()) }
+            scoped { LastSearchs(get())}
         }
 
         scope(named<FavoritesFragment>()) {

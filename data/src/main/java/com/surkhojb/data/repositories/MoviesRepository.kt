@@ -78,4 +78,12 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
         return localDataSource.getMoviesByType(SEARCH)
 
     }
+
+    suspend fun getLastSearchs(): List<String>{
+        return localDataSource.getWordsSearched().toList()
+    }
+
+    suspend fun saveLastSearchh(query: String): Any {
+        return localDataSource.updateWordsSearched(query)
+    }
 }
