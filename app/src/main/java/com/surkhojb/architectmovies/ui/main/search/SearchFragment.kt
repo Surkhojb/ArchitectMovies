@@ -19,9 +19,6 @@ import com.surkhojb.architectmovies.databinding.FragmentSearchBinding
 import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
 import com.surkhojb.architectmovies.ui.main.MainActivityComponent
-import com.surkhojb.architectmovies.ui.main.MainActivityModule
-import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
-import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListener
 import com.surkhojb.architectmovies.utils.getViewModel
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -29,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
-    lateinit var movieAdapter: MovieAdapter
+    lateinit var movieAdapter: SearchMovieAdapter
     private lateinit var component: MainActivityComponent
     private val viewModel: SearchViewModel by lazy { getViewModel { component.searchViewModel } }
 
@@ -57,6 +54,10 @@ class SearchFragment : Fragment() {
             findNavController().navigate(action)
         })
 
+        viewModel.movies.observe(viewLifecycleOwner, Observer {
+            movieAdapter.refreshMovies(it)
+        })
+
         viewModel.searchs.observe(viewLifecycleOwner, Observer {
             buildChips(it)
         })
@@ -64,7 +65,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun configureView(){
-        movieAdapter = MovieAdapter()
+        movieAdapter = SearchMovieAdapter()
 
         list_search.adapter = movieAdapter
 
@@ -97,13 +98,15 @@ class SearchFragment : Fragment() {
     private fun buildChips(list: List<String>){
         if(list.isNullOrEmpty()) return
 
+        binding.chipGroup.removeAllViews()
+
         list.forEach { item ->
             binding.chipGroup.addView(Chip(requireContext()).apply {
                 text = item
                 chipIcon = ContextCompat.getDrawable(context,R.drawable.ic_fab_search)
                 chipIconTint = ColorStateList.valueOf(Color.BLACK)
                 isClickable = true
-                setOnClickListener { binding.searchView.setQuery(item,false) }
+                setOnClickListener { binding.searchView.setQuery(item,true) }
             })
             binding.chipGroup.visibility = View.VISIBLE
         }

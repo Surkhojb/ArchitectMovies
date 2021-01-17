@@ -62,7 +62,6 @@
             android:id="@+id/list_search"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:items="@{viewModel.movies}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

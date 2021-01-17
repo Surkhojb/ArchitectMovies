@@ -29,11 +29,11 @@ private val lastSearchs: LastSearchs) : ViewModel(), CustomScope {
     val navigate: LiveData<Event<Movie>>
         get() = _navigate
 
-    var isLoadingMore = false
 
     init {
         initScope()
-        recoverLastSearchs()
+        loadLastMoviesSearched()
+        recoverSearchsToBuildChips()
     }
 
     override lateinit var job: Job
@@ -42,15 +42,23 @@ private val lastSearchs: LastSearchs) : ViewModel(), CustomScope {
         launch {
             _indicator.value = true
             _movies.value = searchMovies.invoke(query)
-            lastSearchs.put(query)
+            recoverSearchsToBuildChips()
+        }
+    }
+
+    fun recoverSearchsToBuildChips(){
+        launch {
+            _indicator.value = true
+            _searchs.value = lastSearchs.get()
             _indicator.value = false
         }
     }
 
-    fun recoverLastSearchs(){
+    fun loadLastMoviesSearched(){
         launch {
             _indicator.value = true
-            _searchs.value = lastSearchs.get()
+            _movies.value = searchMovies.initLoad()
+            recoverSearchsToBuildChips()
             _indicator.value = false
         }
     }

@@ -10,7 +10,7 @@ class MovieSearchs {
     var id: Int = 0
     @ColumnInfo(name = "words")
     @TypeConverters(ArrayListConverter::class)
-    var wordsSearched: ArrayList<String>? = arrayListOf()
+    var wordsSearched: ArrayList<String> = arrayListOf()
 }
 
 class ArrayListConverter {
