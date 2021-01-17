@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">ArchitectMovies</string>
     <string name="api_key">cc0fba5e2e944d686f8aa373cbcf9e83</string>
+    <string name="top_rated_title">Top Rated</string>
+    <string name="newest_title">Most recent</string>
+    <string name="favorites_title">Your favorites</string>
+    <string name="search_title">Search movies</string>
+
 </resources>

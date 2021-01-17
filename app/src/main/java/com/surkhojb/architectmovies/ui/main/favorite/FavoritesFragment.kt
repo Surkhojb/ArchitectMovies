@@ -29,6 +29,9 @@ class FavoritesFragment : Fragment(){
     private val viewModel: FavoriteViewModel by lazy { getViewModel { component.favoriteViewModel } }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val activity = (activity as MainActivity)
+        activity.supportActionBar?.title = getString(R.string.favorites_title)
+
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.fragment_favorites,container,false)
         return binding.root
     }

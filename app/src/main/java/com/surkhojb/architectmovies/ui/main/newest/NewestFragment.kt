@@ -30,6 +30,9 @@ class NewestFragment : Fragment(){
     private val viewModel: NewestViewModel by lazy { getViewModel { component.newestViewModel } }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val activity = (activity as MainActivity)
+        activity.supportActionBar?.title = getString(R.string.newest_title)
+
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.fragment_newest,container,false)
         return binding.root
     }

@@ -30,6 +30,9 @@ class TopRatedFragment : Fragment(){
     private val viewModel: TopRatedViewModel by lazy { getViewModel { component.topRatedViewModel } }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val activity = (activity as MainActivity)
+        activity.supportActionBar?.title = getString(R.string.top_rated_title)
+
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.fragment_top_rated,container,false)
         return binding.root
     }
@@ -54,6 +57,7 @@ class TopRatedFragment : Fragment(){
         super.onResume()
         val activity = (activity as MainActivity)
         if(activity.fab.visibility == View.GONE){
+           activity.bottom_app_bar.performShow()
            activity.fab.show()
         }
     }

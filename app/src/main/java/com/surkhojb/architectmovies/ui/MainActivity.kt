@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         mainActivityModule = MainActivityModule()
         
-        bottom_view.setOnNavigationItemSelectedListener {
+        bottom_app_bar.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.menu_top_rated -> navigateTo(R.id.nav_host_fragment_container,R.id.topRated)
                 R.id.menu_newest -> navigateTo(R.id.nav_host_fragment_container,R.id.newest)
@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             fab.hide()
+            bottom_app_bar.performHide()
             navigateTo(R.id.nav_host_fragment_container,R.id.search)
         }
     }

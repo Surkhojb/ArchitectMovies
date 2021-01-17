@@ -62,6 +62,7 @@ inline fun <reified T : ViewModel> Fragment.getViewModel(crossinline factory: ()
 }
 
 fun Activity.navigateTo(view: Int, destination: Int): Boolean {
+    this.actionBar?.title = "Title"
     this.findNavController(view).navigate(destination)
     return true
 }
