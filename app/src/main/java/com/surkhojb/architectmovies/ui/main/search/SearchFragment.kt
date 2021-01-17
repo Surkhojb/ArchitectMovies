@@ -3,9 +3,7 @@ package com.surkhojb.architectmovies.ui.main.search
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -30,6 +28,10 @@ class SearchFragment : ScopeFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
+        setHasOptionsMenu(true)
+        setMenuVisibility(false)
+
         val activity = (activity as MainActivity)
         activity.supportActionBar?.title = getString(R.string.search_title)
 
@@ -37,8 +39,8 @@ class SearchFragment : ScopeFragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = this.viewModel
         binding.lifecycleOwner = this@SearchFragment
@@ -58,6 +60,21 @@ class SearchFragment : ScopeFragment() {
             buildChips(it)
         })
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_search_fragment,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_search -> {
+                animateSearch(hide = false)
+            }
+        }
+
+        return true
     }
 
     private fun configureView(){
@@ -80,6 +97,7 @@ class SearchFragment : ScopeFragment() {
 
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
+                animateSearch(hide = true)
                 viewModel.searchMovie(query.toString())
                 return true
             }
@@ -105,6 +123,19 @@ class SearchFragment : ScopeFragment() {
                 setOnClickListener { binding.searchView.setQuery(item,true) }
             })
             binding.chipGroup.visibility = View.VISIBLE
+        }
+    }
+
+    private fun animateSearch(hide: Boolean){
+        when(hide){
+            true -> {
+                cv_search.animate().translationY(-cv_search.height.toFloat() * 2)
+                setMenuVisibility(true)
+            }
+            false -> {
+                cv_search.animate().translationY(0f)
+                setMenuVisibility(false)
+            }
         }
     }
 
