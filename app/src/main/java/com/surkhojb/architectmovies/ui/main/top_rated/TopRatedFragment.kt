@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+<<<<<<< HEAD
 import androidx.fragment.app.Fragment
+=======
+>>>>>>> 72752ca... Return 3 last word searched; Moved MovieAdapter to common package
 import androidx.navigation.fragment.findNavController
 import com.surkhojb.architectmovies.MainApp
 import com.surkhojb.architectmovies.R
@@ -13,11 +16,14 @@ import com.surkhojb.architectmovies.databinding.FragmentTopRatedBinding
 import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
 import com.surkhojb.architectmovies.ui.common.OnLoadMoreItems
+<<<<<<< HEAD
 import com.surkhojb.architectmovies.ui.main.MainActivityComponent
 import com.surkhojb.architectmovies.ui.main.MainActivityModule
 import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
 import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListener
 import com.surkhojb.architectmovies.utils.getViewModel
+import com.surkhojb.architectmovies.ui.common.adapter.MovieAdapter
+import com.surkhojb.architectmovies.ui.common.adapter.MoviewClickListener
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_top_rated.*

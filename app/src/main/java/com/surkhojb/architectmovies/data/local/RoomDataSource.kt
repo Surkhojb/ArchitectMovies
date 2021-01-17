@@ -42,7 +42,7 @@ class RoomDataSource(private val moviesDao: MovieDao): LocalDataSource {
     }
 
     override suspend fun getWordsSearched(): List<String> = withContext(Dispatchers.IO) {
-        moviesDao.getMovieSearchs()?.wordsSearched?.take(5) ?: arrayListOf()
+        moviesDao.getMovieSearchs()?.wordsSearched?.takeLast(3) ?: arrayListOf()
     }
 
     override suspend fun updateWordsSearched(query: String): Boolean = withContext(Dispatchers.IO) {

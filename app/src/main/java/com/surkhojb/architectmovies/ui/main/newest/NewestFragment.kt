@@ -14,10 +14,9 @@ import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
 import com.surkhojb.architectmovies.ui.common.OnLoadMoreItems
 import com.surkhojb.architectmovies.ui.main.MainActivityComponent
-import com.surkhojb.architectmovies.ui.main.MainActivityModule
-import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MovieAdapter
-import com.surkhojb.architectmovies.ui.main.top_rated.adapter.MoviewClickListener
 import com.surkhojb.architectmovies.utils.getViewModel
+import com.surkhojb.architectmovies.ui.common.adapter.MovieAdapter
+import com.surkhojb.architectmovies.ui.common.adapter.MoviewClickListener
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_newest.*
