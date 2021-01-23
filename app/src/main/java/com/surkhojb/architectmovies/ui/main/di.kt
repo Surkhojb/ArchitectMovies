@@ -54,13 +54,18 @@ class MainActivityModule{
 
     //region Search
     @Provides
-    fun searchViewModelProvider(searchMovie: SearchMovie): SearchViewModel {
-        return SearchViewModel(searchMovie)
+    fun searchViewModelProvider(searchMovie: SearchMovie, lastSearchs: LastSearchs): SearchViewModel {
+        return SearchViewModel(searchMovie,lastSearchs)
     }
 
     @Provides
     fun searchMoviesProvider(moviesRepository: MoviesRepository): SearchMovie {
         return SearchMovie(moviesRepository)
+    }
+
+    @Provides
+    fun lastSearchhMoviesProvider(moviesRepository: MoviesRepository): LastSearchs {
+        return LastSearchs(moviesRepository)
     }
     //endregion
 }
