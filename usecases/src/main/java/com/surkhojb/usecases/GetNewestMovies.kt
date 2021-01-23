@@ -5,5 +5,5 @@ import com.surkhojb.domain.Movie
 
 class GetNewestMovies(private val moviesRepository: MoviesRepository) {
 
-    suspend fun invoke(): List<Movie> = moviesRepository.getNewestMovies()
+    suspend fun invoke(loadMore: Boolean = false): List<Movie> = moviesRepository.getNewestMovies(loadMore)
 }

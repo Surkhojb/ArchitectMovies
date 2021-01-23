@@ -5,9 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.Query
 import androidx.room.Update
-import com.surkhojb.architectmovies.data.local.room.model.Cast
-import com.surkhojb.architectmovies.data.local.room.model.Movie
-import com.surkhojb.architectmovies.data.local.room.model.MovieCast
+import com.surkhojb.architectmovies.data.local.room.model.*
 
 @Dao
 interface MovieDao {
@@ -32,5 +30,17 @@ interface MovieDao {
 
     @Update
     fun updateMovieCast(movie: Movie)
+
+    @Query("SELECT * FROM movies_searchs")
+    fun getMovieSearchs(): MovieSearchs?
+
+    @Insert(onConflict = IGNORE)
+    fun insertMovieSearchs(movieSearchs: MovieSearchs)
+
+    @Update
+    fun updateMovieSearchs(movieSearchs: MovieSearchs)
+
+    @Query("DELETE from movies WHERE movieType = 'search'")
+    fun removeLastSearch()
 
 }

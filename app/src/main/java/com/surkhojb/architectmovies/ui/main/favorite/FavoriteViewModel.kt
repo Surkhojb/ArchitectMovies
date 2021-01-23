@@ -1,4 +1,4 @@
-package com.surkhojb.architectmovies.ui.favorite
+package com.surkhojb.architectmovies.ui.main.favorite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,8 +7,6 @@ import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.architectmovies.ui.common.Event
 import com.surkhojb.domain.Movie
 import com.surkhojb.usecases.GetFavorites
-import com.surkhojb.usecases.GetNewestMovies
-import com.surkhojb.usecases.GetTopRatedMovies
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 

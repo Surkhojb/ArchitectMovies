@@ -7,7 +7,7 @@
     app:startDestination="@id/topRated">
     <fragment
         android:id="@+id/topRated"
-        android:name="com.surkhojb.architectmovies.ui.top_rated.TopRatedFragment"
+        android:name="com.surkhojb.architectmovies.ui.main.top_rated.TopRatedFragment"
         android:label="fragment_main">
         <action
             android:id="@+id/action_to_detail"
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/newest"
-        android:name="com.surkhojb.architectmovies.ui.newest.NewestFragment"
+        android:name="com.surkhojb.architectmovies.ui.main.newest.NewestFragment"
         android:label="newest_fragment">
     <action
         android:id="@+id/action_to_detail"
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/favorites"
-        android:name="com.surkhojb.architectmovies.ui.favorite.FavoritesFragment"
+        android:name="com.surkhojb.architectmovies.ui.main.favorite.FavoritesFragment"
         android:label="favorites_fragment">
         <action
             android:id="@+id/action_to_detail"
@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/search"
-        android:name="com.surkhojb.architectmovies.ui.search.SearchFragment"
+        android:name="com.surkhojb.architectmovies.ui.main.search.SearchFragment"
         android:label="search_fragment">
         <action
             android:id="@+id/action_to_detail"

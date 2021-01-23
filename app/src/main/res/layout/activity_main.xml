@@ -22,24 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:backgroundTint="@color/purple_500"
-            app:fabCradleRoundedCornerRadius="0dp"
-            app:fabAlignmentMode="end"
-            app:fabAnimationMode="scale"
-            app:fabCradleMargin="0dp"
+            app:backgroundTint="@color/black"
+            app:fabAlignmentMode="center"
+            app:fabAnimationMode="slide"
             app:hideOnScroll="true"
+            app:menu="@menu/bottom_menu"
             app:layout_scrollFlags="scroll|enterAlways"
             style="@style/Widget.MaterialComponents.BottomAppBar">
-
-            <com.surkhojb.architectmovies.ui.custom.CustomBottomView
-                android:id="@+id/bottom_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                app:itemIconTint="@color/white"
-                app:itemTextColor="@color/white"
-                app:menu="@menu/bottom_menu"
-                />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

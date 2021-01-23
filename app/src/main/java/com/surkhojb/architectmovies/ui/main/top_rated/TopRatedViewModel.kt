@@ -1,4 +1,4 @@
-package com.surkhojb.architectmovies.ui.newest
+package com.surkhojb.architectmovies.ui.main.top_rated
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.architectmovies.ui.common.Event
 import com.surkhojb.domain.Movie
-import com.surkhojb.usecases.GetNewestMovies
 import com.surkhojb.usecases.GetTopRatedMovies
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class NewestViewModel(private val getNewestMovies: GetNewestMovies): ViewModel(),CustomScope {
+class TopRatedViewModel(private val getTopRatedMovies: GetTopRatedMovies): ViewModel(),CustomScope {
 
     private val _indicator: MutableLiveData<Boolean>  = MutableLiveData()
     val loading: LiveData<Boolean>
@@ -37,24 +36,20 @@ class NewestViewModel(private val getNewestMovies: GetNewestMovies): ViewModel()
     fun fetchMovies(){
         launch {
             _indicator.value = true
-            _movies.value = getNewestMovies.invoke()
+            _movies.value = getTopRatedMovies.invoke()
             _indicator.value = false
         }
     }
 
-    /*fun fetchMoreMovies(){
+    fun fetchMoreMovies(){
         isLoadingMore = true
         launch {
             _movies.value = getTopRatedMovies.invoke(true)
         }
         isLoadingMore = false
-    }*/
+    }
 
     fun goToDetail(movie: Movie){
         _navigate.value = Event(movie)
-    }
-
-    override fun onCleared() {
-        clearScope()
     }
 }

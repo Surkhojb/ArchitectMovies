@@ -1,22 +1,21 @@
 package com.surkhojb.architectmovies.common
 
 import android.Manifest
+import android.app.Application
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.surkhojb.architectmovies.MainApp
-import com.surkhojb.data.repositories.PermissionChecker
+import com.surkhojb.data.datasources.PermissionChecker
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class PermissionManager: PermissionChecker {
-    private val context = MainApp.getContext()
+class PermissionManager(val application: Application): PermissionChecker {
 
     override suspend fun check(permissions: List<PermissionChecker.Permission>): Boolean {
         return suspendCancellableCoroutine { continuation ->
-            Dexter.withContext(context)
+            Dexter.withContext(application)
                 .withPermissions(permissions.map { it.toAndroidId() })
                 .withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport?) {

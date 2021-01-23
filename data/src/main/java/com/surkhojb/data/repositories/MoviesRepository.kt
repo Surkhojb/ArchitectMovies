@@ -18,12 +18,12 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
 
     suspend fun getTopRatedMovies(loadingMore: Boolean): List<Movie>{
         if(!localDataSource.areMoviesCached() || loadingMore ){
-            val pageToLoad = preferencesDataSource.pageToLoad()
+            val pageToLoad = preferencesDataSource.pageToLoad(TOP_RATED)
 
             val movies = remoteDataSource.getTopRatedMovies(regionRepository.findLastRegion(),pageToLoad)
 
             localDataSource.cacheMovies(TOP_RATED,movies).also {
-                preferencesDataSource.updatePage()
+                preferencesDataSource.updatePage(TOP_RATED)
                 return movies
             }
         }
@@ -53,10 +53,16 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
         return localDataSource.updateMovie(movie)
     }
 
-    suspend fun getNewestMovies(): List<Movie>{
-        if(!localDataSource.areMoviesCached(NEWEST_TYPE)) {
-            val movies = remoteDataSource.getNewestMovies()
-            localDataSource.cacheMovies(NEWEST_TYPE, movies)
+    suspend fun getNewestMovies(loadingMore: Boolean): List<Movie>{
+        if(!localDataSource.areMoviesCached(NEWEST_TYPE) || loadingMore ) {
+            val pageToLoad = preferencesDataSource.pageToLoad(NEWEST_TYPE)
+
+            val movies = remoteDataSource.getNewestMovies(pageToLoad)
+
+            localDataSource.cacheMovies(NEWEST_TYPE, movies).also {
+                preferencesDataSource.updatePage(NEWEST_TYPE)
+            }
+
             return localDataSource.getMoviesByType(NEWEST_TYPE)
         }
 
@@ -67,15 +73,23 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
         return localDataSource.getFavorites()
     }
 
-    // TODO -> Save in cache last search to load fragment by default with the last search
     suspend fun searchMovies(query: String): List<Movie>{
-        if(!localDataSource.areMoviesCached(SEARCH)){
-            val movies = remoteDataSource.searchMovie(query)
+        return remoteDataSource.searchMovie(query).also {movies ->
+            localDataSource.removeLastSearch()
             localDataSource.cacheMovies(SEARCH,movies)
-            return localDataSource.getMoviesByType(SEARCH)
         }
 
-        return localDataSource.getMoviesByType(SEARCH)
+    }
 
+    suspend fun loadLastSearch(): List<Movie>{
+        return localDataSource.getMoviesByType(SEARCH)
+    }
+
+    suspend fun getLastSearchs(): List<String>{
+        return localDataSource.getWordsSearched().toList()
+    }
+
+    suspend fun saveLastSearchh(query: String): Any {
+        return localDataSource.updateWordsSearched(query)
     }
 }

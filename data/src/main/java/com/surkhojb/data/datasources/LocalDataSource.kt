@@ -11,4 +11,7 @@ interface LocalDataSource{
     suspend fun getMovieCast(movieId: Int): List<Cast>
     suspend fun getMovieById(movieId: Int): Movie
     suspend fun updateMovie(movie: Movie)
+    suspend fun getWordsSearched(): List<String>
+    suspend fun updateWordsSearched(query: String): Boolean
+    suspend fun removeLastSearch()
 }
