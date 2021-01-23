@@ -18,7 +18,7 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
 
     suspend fun getTopRatedMovies(loadingMore: Boolean): List<Movie>{
         if(!localDataSource.areMoviesCached() || loadingMore ){
-            val pageToLoad = preferencesDataSource.pageToLoad(TOP_RATED)
+            val pageToLoad = preferencesDataSource.pageToLoad(TOP_RATED) ?: 1
 
             val movies = remoteDataSource.getTopRatedMovies(regionRepository.findLastRegion(),pageToLoad)
 
@@ -34,12 +34,10 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
     suspend fun getMovieCast(movieId: Int): List<Cast>{
         if(localDataSource.getMovieCast(movieId).isNullOrEmpty()){
             val cast = remoteDataSource.getMovieCast(movieId)
-            val movieToUpdate = localDataSource.getMovieById(movieId)
-            movieToUpdate.cast?.cast = cast
-
-            localDataSource.updateMovie(movieToUpdate)
-
-            return cast
+            localDataSource.getMovieById(movieId)?.apply {
+                this.cast?.cast = cast ?: emptyList()
+                localDataSource.updateMovie(this)
+            }
         }
 
         return localDataSource.getMovieCast(movieId)
@@ -55,15 +53,14 @@ class MoviesRepository(private val localDataSource: LocalDataSource,
 
     suspend fun getNewestMovies(loadingMore: Boolean): List<Movie>{
         if(!localDataSource.areMoviesCached(NEWEST_TYPE) || loadingMore ) {
-            val pageToLoad = preferencesDataSource.pageToLoad(NEWEST_TYPE)
+            val pageToLoad = preferencesDataSource.pageToLoad(NEWEST_TYPE) ?: 1
 
             val movies = remoteDataSource.getNewestMovies(pageToLoad)
 
             localDataSource.cacheMovies(NEWEST_TYPE, movies).also {
                 preferencesDataSource.updatePage(NEWEST_TYPE)
+                return movies
             }
-
-            return localDataSource.getMoviesByType(NEWEST_TYPE)
         }
 
         return localDataSource.getMoviesByType(NEWEST_TYPE)
