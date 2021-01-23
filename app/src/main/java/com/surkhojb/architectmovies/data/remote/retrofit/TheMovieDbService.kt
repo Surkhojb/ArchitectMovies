@@ -20,7 +20,7 @@ interface TheMovieDbService {
     ): MovieCast
 
     @GET("movie/now_playing")
-    suspend fun getNewest(): MovieResult
+    suspend fun getNewest(@Query("page") page: Int?): MovieResult
 
     @GET("search/movie")
     suspend fun searchMovie(

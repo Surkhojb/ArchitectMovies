@@ -11,16 +11,23 @@ import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 
-private val PAGE_KEY = preferencesKey<Int>("lastPage")
+private val PAGE_TOP_RATED = preferencesKey<Int>("page_top_rated")
+private val PAGE_NEWEST = preferencesKey<Int>("page_newest")
+
+private const val TOP_RATED = "top_rated"
+private const val NEWEST = "newest"
 
 class DataStoreSource(private val dataStore: DataStore<Preferences>) {
-    suspend fun putPage(page: Int){
+    suspend fun putPage(page: Int, type: String){
         dataStore.edit { pref ->
-            pref[PAGE_KEY] = page
+                when(type){
+                    TOP_RATED -> { pref[PAGE_TOP_RATED] = page}
+                    NEWEST -> { pref[PAGE_NEWEST] = page}
+                }
         }
     }
 
-    fun getPage(): Flow<Int> {
+    fun getPage(type: String): Flow<Int> {
        return dataStore.data
             .catch { ex ->
                 when(ex){
@@ -28,7 +35,12 @@ class DataStoreSource(private val dataStore: DataStore<Preferences>) {
                     else -> throw ex
                 }
             }.map {pref ->
-                pref[PAGE_KEY] ?: 1
+                   when(type){
+                       TOP_RATED -> { pref[PAGE_TOP_RATED] ?: 1}
+                       NEWEST -> { pref[PAGE_NEWEST] ?: 1}
+                       else -> 1
+                   }
+
             }
     }
 }

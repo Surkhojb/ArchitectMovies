@@ -41,13 +41,13 @@ class NewestViewModel(private val getNewestMovies: GetNewestMovies): ViewModel()
         }
     }
 
-    /*fun fetchMoreMovies(){
+    fun fetchMoreMovies(){
         isLoadingMore = true
         launch {
-            _movies.value = getTopRatedMovies.invoke(true)
+            _movies.value = getNewestMovies.invoke(true)
         }
         isLoadingMore = false
-    }*/
+    }
 
     fun goToDetail(movie: Movie){
         _navigate.value = Event(movie)
