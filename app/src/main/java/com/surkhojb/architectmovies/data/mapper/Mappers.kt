@@ -69,7 +69,7 @@ fun RoomMovie.mapToDomainMovie(): DomainMovie = DomainMovie(
     voteAverage,
     voteCount,
     favorite,
-    DomainMovieCast(emptyList())
+    DomainMovieCast(this.cast?.cast?.map { it.mapToDomainCast() } ?: emptyList())
 )
 
 fun RoomCast.mapToDomainCast() = DomainCast(

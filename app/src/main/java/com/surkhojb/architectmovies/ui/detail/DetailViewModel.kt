@@ -49,6 +49,7 @@ class DetailViewModel(private val getMovieCast: GetMovieCast,
         launch {
             _indicator.value = true
             _cast.value = getMovieCast.invoke(movieId)?.take(5)
+            _movie.value?.cast?.cast = cast.value
             _indicator.value = false
         }
     }
