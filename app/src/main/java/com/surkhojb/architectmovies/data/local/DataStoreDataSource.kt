@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.first
 
 class DataStoreDataSource(private val dataStore: DataStoreSource): PreferencesDataSource {
 
-    override suspend fun pageToLoad(type: String): Int {
+    override suspend fun pageToLoad(type: String): Int? {
         return dataStore.getPage(type).first()
     }
 

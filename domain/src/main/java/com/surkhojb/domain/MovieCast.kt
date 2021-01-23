@@ -1,7 +1,7 @@
 package com.surkhojb.domain
 
 data class MovieCast(
-    var cast: List<Cast>
+    var cast: List<Cast>?
 )
 
 data class Cast(
