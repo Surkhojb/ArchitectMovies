@@ -73,7 +73,7 @@ class NewestFragment : Fragment(){
 
         list_top_rated.setOnScrollListener(object : OnLoadMoreItems(){
             override fun loadMoreItems() {
-                //viewModel.fetchMoreMovies()
+                viewModel.fetchMoreMovies()
             }
         })
     }
