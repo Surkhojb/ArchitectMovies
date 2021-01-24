@@ -2,9 +2,12 @@
 package com.surkhojb.architectmovies.utils
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -65,4 +68,15 @@ fun Activity.navigateTo(view: Int, destination: Int): Boolean {
     this.actionBar?.title = "Title"
     this.findNavController(view).navigate(destination)
     return true
+}
+
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+@Suppress("DEPRECATION")
+fun View.openKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.showSoftInputFromInputMethod(windowToken, 0)
 }
