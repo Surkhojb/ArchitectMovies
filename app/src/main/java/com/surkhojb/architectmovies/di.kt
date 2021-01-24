@@ -58,7 +58,7 @@ fun Application.initKoin() {
         single<CoroutineDispatcher> { Dispatchers.Main }
     }
 
-    private val dataModule = module {
+    val dataModule = module {
         factory { RegionRepository(get(), get()) }
         factory { MoviesRepository(get(), get(), get(), get()) }
     }
