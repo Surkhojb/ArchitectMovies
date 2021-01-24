@@ -3,18 +3,22 @@ package com.surkhojb.architectmovies.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.surkhojb.architectmovies.ui.common.BaseViewModel
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.domain.Cast
 import com.surkhojb.domain.Movie
 import com.surkhojb.usecases.GetMovieById
 import com.surkhojb.usecases.GetMovieCast
 import com.surkhojb.usecases.SaveMovieAsFavorite
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val getMovieCast: GetMovieCast,
-                      private val getMovieById: GetMovieById,
-                      private val saveMovieAsFavorite: SaveMovieAsFavorite): ViewModel(), CustomScope {
+class DetailViewModel(
+        private val uiDispatcher: CoroutineDispatcher,
+        private val getMovieCast: GetMovieCast,
+        private val getMovieById: GetMovieById,
+        private val saveMovieAsFavorite: SaveMovieAsFavorite): BaseViewModel(uiDispatcher) {
 
     var movieId = -1
 
@@ -33,12 +37,6 @@ class DetailViewModel(private val getMovieCast: GetMovieCast,
     private val _isFavorite: MutableLiveData<Boolean> = MutableLiveData()
     val favorite: LiveData<Boolean>
         get() = _isFavorite
-
-    init {
-        initScope()
-    }
-
-    override lateinit var job: Job
 
     fun loadDetail() {
         loadMovie()
@@ -70,10 +68,6 @@ class DetailViewModel(private val getMovieCast: GetMovieCast,
                 _isFavorite.value = _movie.value?.favorite
             }
         }
-    }
-
-    override fun onCleared() {
-        clearScope()
     }
 
 }
