@@ -10,6 +10,7 @@ import com.surkhojb.architectmovies.common.PermissionManager
 import com.surkhojb.architectmovies.common.PlayServicesDataSource
 import com.surkhojb.architectmovies.data.local.DataStoreDataSource
 import com.surkhojb.architectmovies.data.remote.model.Movie
+import com.surkhojb.architectmovies.data.remote.retrofit.MovieDb
 import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.detail.DetailActivity
 import com.surkhojb.architectmovies.ui.detail.DetailViewModel
@@ -35,6 +36,8 @@ import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+private val BASE_URL = "https://api.themoviedb.org/3/"
+
 fun Application.initKoin() {
     startKoin {
         androidLogger()
@@ -52,7 +55,9 @@ fun Application.initKoin() {
             DataStoreSource(settings)
         }
         factory<PreferencesDataSource> { DataStoreDataSource(get())}
-        factory<RemoteDataSource> { TMDBDataSource() }
+        factory<RemoteDataSource> { TMDBDataSource(get()) }
+        single(named("baseUrl")) { BASE_URL }
+        single { MovieDb(get(named("baseUrl"))) }
         factory<LocationDataSource> { PlayServicesDataSource(get())}
         factory<PermissionChecker> { PermissionManager(get()) }
         single<CoroutineDispatcher> { Dispatchers.Main }

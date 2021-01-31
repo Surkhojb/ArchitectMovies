@@ -58,7 +58,7 @@ class NewestFragment : ScopeFragment(){
     private fun configureView(){
         movieAdapter = MovieAdapter()
 
-        list_top_rated.adapter = movieAdapter
+        list_newest.adapter = movieAdapter
 
         movieAdapter.addClickListener(object : MoviewClickListener {
             override fun onMovieClicked(movie: Movie) {
@@ -66,7 +66,7 @@ class NewestFragment : ScopeFragment(){
             }
         })
 
-        list_top_rated.setOnScrollListener(object : OnLoadMoreItems(){
+        list_newest.setOnScrollListener(object : OnLoadMoreItems(){
             override fun loadMoreItems() {
                 viewModel.fetchMoreMovies()
             }

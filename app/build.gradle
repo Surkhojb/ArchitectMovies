@@ -52,8 +52,8 @@ dependencies {
     implementation project(":domain")
     implementation project(":usecases")
 
-    testImplementation testLibs.values()
-    testImplementation androidxTestLibs.values()
+    androidTestImplementation testLibs.values()
+    androidTestImplementation androidxTestLibs.values()
 
     implementation androidSdkLibs.values()
     implementation kotlinLibs.values()

@@ -17,7 +17,7 @@ interface TheMovieDbService {
     @GET("movie/{movie_id}/credits")
     suspend fun getCast(
         @Path("movie_id") movieId: Int
-    ): MovieCast
+    ): MovieCast?
 
     @GET("movie/now_playing")
     suspend fun getNewest(@Query("page") page: Int?): MovieResult
