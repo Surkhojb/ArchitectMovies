@@ -6,13 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.surkhojb.architectmovies.ui.top_rated.TopRatedViewModel" />
+            type="com.surkhojb.architectmovies.ui.main.top_rated.TopRatedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.top_rated.TopRatedFragment">
+        android:background="@color/light_background"
+        tools:context=".ui.main.top_rated.TopRatedFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_top_rated"

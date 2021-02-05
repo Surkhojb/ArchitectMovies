@@ -6,13 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.surkhojb.architectmovies.ui.favorite.FavoriteViewModel" />
+            type="com.surkhojb.architectmovies.ui.main.favorite.FavoriteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.top_rated.TopRatedFragment">
+        android:background="@color/light_background"
+        tools:context=".ui.main.top_rated.TopRatedFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_favorites"
@@ -35,8 +36,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/list_top_rated"
-            app:layout_constraintTop_toTopOf="@+id/list_top_rated"
+            app:layout_constraintStart_toStartOf="@+id/list_favorites"
+            app:layout_constraintTop_toTopOf="@+id/list_favorites"
             app:visible="@{viewModel.loading}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

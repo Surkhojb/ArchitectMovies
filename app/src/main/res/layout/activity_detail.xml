@@ -12,13 +12,25 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/light_background">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="@{()-> viewModel.onFavoriteClicked()}"
+            app:isFavorite="@{viewModel.favorite}"
+            app:layout_anchor="@id/detail_poster"
+            app:layout_anchorGravity="bottom|right"
+            app:srcCompat="@drawable/ic_favorite_on" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:backgroundTint="@color/white"
             android:fitsSystemWindows="true"
-            android:layout_height="490dp"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -31,7 +43,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/detail_container"
                     android:layout_width="match_parent"
-                    android:layout_height="490dp">
+                    android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/detail_poster"
@@ -44,72 +56,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:urlPoster="@{viewModel.movie.posterPath}"/>
 
-                    <TextView
-                        android:id="@+id/detail_average"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:drawableStart="@drawable/ic_imdb_logo"
-                        android:drawablePadding="4dp"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@+id/detail_popularity"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/detail_poster"
-                        app:textFromDouble="@{viewModel.movie.voteAverage}" />
-
-                    <TextView
-                        android:id="@+id/detail_popularity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:drawableStart="@drawable/ic_thumb_up"
-                        android:drawablePadding="4dp"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/detail_average"
-                        app:layout_constraintEnd_toStartOf="@+id/detail_count"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/detail_average"
-                        app:layout_constraintTop_toTopOf="@+id/detail_average"
-                        app:textFromDouble="@{viewModel.movie.popularity}" />
-
-                    <TextView
-                        android:id="@+id/detail_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:drawableStart="@drawable/ic_favorite_on"
-                        android:drawablePadding="4dp"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/detail_popularity"
-                        app:layout_constraintEnd_toStartOf="@+id/fab_fav"
-                        app:layout_constraintStart_toEndOf="@+id/detail_popularity"
-                        app:layout_constraintTop_toTopOf="@+id/detail_popularity"
-                        app:textFromInt="@{viewModel.movie.voteCount}" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_fav"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
-                        android:clickable="true"
-                        android:onClick="@{()-> viewModel.onFavoriteClicked()}"
-                        app:isFavorite="@{viewModel.favorite}"
-                        app:layout_constraintBottom_toBottomOf="@+id/detail_poster"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/detail_poster"
-                        app:srcCompat="@drawable/ic_favorite_on"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
@@ -118,101 +64,147 @@
             android:id="@+id/detail_info_sv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="16dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detail_info_area"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_margin="8dp">
 
-                <TextView
-                    android:id="@+id/detail_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{viewModel.movie.title}"
-                    android:gravity="center_vertical"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:drawablePadding="4dp"
-                    android:drawableStart="@drawable/ic_article_24"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/detail_overview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:textStyle="italic"
-                    android:text="@{viewModel.movie.overview}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_title"/>
-
-                <TextView
-                    android:id="@+id/detail_movie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:drawableStart="@drawable/ic_tv_24"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:text="Information"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_overview" />
-
-                <TextView
-                    android:id="@+id/detail_movie_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_movie"
-                    app:buildInfo="@{viewModel.movie}"/>
-
-                <TextView
-                    android:id="@+id/detail_cast"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:drawableStart="@drawable/ic_baseline_face_24"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:text="Cast"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_movie_info" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/list_cast"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_overview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_cast"
-                    tools:listitem="@layout/movie_detail_cast_item"
-                    app:items="@{viewModel.cast}"/>
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <ProgressBar
-                    android:id="@+id/loading_indicator"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="wrap_content"
+                   <LinearLayout
+                       android:orientation="vertical"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_margin="4dp">
+
+                       <TextView
+                           android:id="@+id/detail_title"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="8dp"
+                           android:drawableStart="@drawable/ic_article_24"
+                           android:drawablePadding="4dp"
+                           android:gravity="center_vertical"
+                           android:text="@{viewModel.movie.title}"
+                           android:textColor="@color/black"
+                           android:textStyle="bold" />
+
+                       <TextView
+                           android:id="@+id/detail_overview"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="@{viewModel.movie.overview}"
+                           android:textStyle="italic" />
+
+                   </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_detail"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/list_cast"
-                    app:layout_constraintEnd_toEndOf="@+id/list_cast"
-                    app:layout_constraintStart_toStartOf="@+id/list_cast"
-                    app:layout_constraintTop_toTopOf="@+id/list_cast"
-                    app:visible="@{viewModel.loading}"/>
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/card_overview">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="4dp">
+
+                        <TextView
+                            android:id="@+id/detail_movie"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_tv_24"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_vertical"
+                            android:text="Information"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detail_overview" />
+
+                        <TextView
+                            android:id="@+id/detail_movie_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:buildInfo="@{viewModel.movie}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detail_movie" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_cast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/card_detail">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_margin="4dp">
+
+                        <TextView
+                            android:id="@+id/detail_cast"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_baseline_face_24"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_vertical"
+                            android:text="Cast"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/card_detail" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/list_cast"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            app:items="@{viewModel.cast}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detail_cast"
+                            tools:listitem="@layout/movie_detail_cast_item" />
+
+                        <ProgressBar
+                            android:id="@+id/loading_indicator"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/list_cast"
+                            app:layout_constraintEnd_toEndOf="@+id/list_cast"
+                            app:layout_constraintStart_toStartOf="@+id/list_cast"
+                            app:layout_constraintTop_toTopOf="@+id/list_cast"
+                            app:visible="@{viewModel.loading}" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>

@@ -13,6 +13,6 @@ data class Movie(
     val popularity: Double,
     val voteAverage: Double,
     val voteCount: Int,
-    val favorite: Boolean,
+    var favorite: Boolean,
     var cast: MovieCast?
 )
