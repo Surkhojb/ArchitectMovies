@@ -8,10 +8,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object MovieDb {
-    private val BASE_URL = "https://api.themoviedb.org/3/"
+class MovieDb(private val baseUrl: String) {
 
-    private val okHttpClient = HttpLoggingInterceptor().run{
+    val okHttpClient = HttpLoggingInterceptor().run{
         level = HttpLoggingInterceptor.Level.BODY
         OkHttpClient.Builder()
             .addInterceptor(this)
@@ -20,7 +19,7 @@ object MovieDb {
     }
 
     val service : TheMovieDbService = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(baseUrl)
         .client(okHttpClient)
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())

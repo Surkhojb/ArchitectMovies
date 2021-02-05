@@ -3,16 +3,20 @@ package com.surkhojb.architectmovies.ui.main.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.surkhojb.architectmovies.ui.common.BaseViewModel
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.architectmovies.ui.common.Event
 import com.surkhojb.domain.Movie
 import com.surkhojb.usecases.LastSearchs
 import com.surkhojb.usecases.SearchMovie
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SearchViewModel(private val searchMovies: SearchMovie,
-private val lastSearchs: LastSearchs) : ViewModel(), CustomScope {
+class SearchViewModel(
+        private val uiDispatcher: CoroutineDispatcher,
+        private val searchMovies: SearchMovie,
+        private val lastSearchs: LastSearchs) : BaseViewModel(uiDispatcher) {
     private val _indicator: MutableLiveData<Boolean> = MutableLiveData()
     val loading: LiveData<Boolean>
         get() = _indicator
@@ -31,12 +35,9 @@ private val lastSearchs: LastSearchs) : ViewModel(), CustomScope {
 
 
     init {
-        initScope()
         loadLastMoviesSearched()
         recoverSearchsToBuildChips()
     }
-
-    override lateinit var job: Job
 
     fun searchMovie(query: String){
         launch {
@@ -65,9 +66,5 @@ private val lastSearchs: LastSearchs) : ViewModel(), CustomScope {
 
     fun goToDetail(movie: Movie){
         _navigate.value = Event(movie)
-    }
-
-    override fun onCleared() {
-        clearScope()
     }
 }

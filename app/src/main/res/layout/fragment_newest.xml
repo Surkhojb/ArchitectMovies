@@ -16,7 +16,7 @@
         tools:context=".ui.main.top_rated.TopRatedFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_top_rated"
+            android:id="@+id/list_newest"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,8 +36,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/list_top_rated"
-            app:layout_constraintTop_toTopOf="@+id/list_top_rated"
+            app:layout_constraintStart_toStartOf="@+id/list_newest"
+            app:layout_constraintTop_toTopOf="@+id/list_newest"
             app:visible="@{viewModel.loading}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -3,14 +3,18 @@ package com.surkhojb.architectmovies.ui.main.top_rated
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.surkhojb.architectmovies.ui.common.BaseViewModel
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.architectmovies.ui.common.Event
 import com.surkhojb.domain.Movie
 import com.surkhojb.usecases.GetTopRatedMovies
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class TopRatedViewModel(private val getTopRatedMovies: GetTopRatedMovies): ViewModel(),CustomScope {
+class TopRatedViewModel(
+        private val uiDispatcher: CoroutineDispatcher,
+        private val getTopRatedMovies: GetTopRatedMovies): BaseViewModel(uiDispatcher) {
 
     private val _indicator: MutableLiveData<Boolean>  = MutableLiveData()
     val loading: LiveData<Boolean>
@@ -27,11 +31,8 @@ class TopRatedViewModel(private val getTopRatedMovies: GetTopRatedMovies): ViewM
     var isLoadingMore = false
 
     init {
-        initScope()
         fetchMovies()
     }
-
-    override lateinit var job: Job
 
     fun fetchMovies(){
         launch {

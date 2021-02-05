@@ -3,14 +3,18 @@ package com.surkhojb.architectmovies.ui.main.newest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.surkhojb.architectmovies.ui.common.BaseViewModel
 import com.surkhojb.architectmovies.ui.common.CustomScope
 import com.surkhojb.architectmovies.ui.common.Event
 import com.surkhojb.domain.Movie
 import com.surkhojb.usecases.GetNewestMovies
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class NewestViewModel(private val getNewestMovies: GetNewestMovies): ViewModel(),CustomScope {
+class NewestViewModel(
+        private val uiDispatcher: CoroutineDispatcher,
+        private val getNewestMovies: GetNewestMovies): BaseViewModel(uiDispatcher) {
 
     private val _indicator: MutableLiveData<Boolean>  = MutableLiveData()
     val loading: LiveData<Boolean>
@@ -27,11 +31,8 @@ class NewestViewModel(private val getNewestMovies: GetNewestMovies): ViewModel()
     var isLoadingMore = false
 
     init {
-        initScope()
         fetchMovies()
     }
-
-    override lateinit var job: Job
 
     fun fetchMovies(){
         launch {
@@ -53,7 +54,4 @@ class NewestViewModel(private val getNewestMovies: GetNewestMovies): ViewModel()
         _navigate.value = Event(movie)
     }
 
-    override fun onCleared() {
-        clearScope()
-    }
 }

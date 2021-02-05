@@ -9,14 +9,20 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.surkhojb.architectmovies.R
 import com.surkhojb.architectmovies.databinding.FragmentSearchBinding
 import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.common.EventObserver
+import com.surkhojb.architectmovies.utils.hideKeyboard
+import com.surkhojb.architectmovies.utils.openKeyboard
 import com.surkhojb.domain.Movie
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.scope.ScopeFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -88,12 +94,7 @@ class SearchFragment : ScopeFragment() {
             }
         })
 
-        search_view.apply {
-            queryHint = "Search a movie."
-            isIconified = false
-            requestFocus()
-            callOnClick()
-        }
+        searchViewBehaviour()
 
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -107,6 +108,13 @@ class SearchFragment : ScopeFragment() {
             }
 
         })
+
+        search_view.apply {
+            setOnCloseListener {
+                animateSearch(hide = true)
+                true
+            }
+        }
     }
 
     private fun buildChips(list: List<String>){
@@ -131,12 +139,24 @@ class SearchFragment : ScopeFragment() {
         when(hide){
             true -> {
                 cv_search.animate().translationY(-cv_search.height.toFloat() * 2)
+                search_view.hideKeyboard()
                 setMenuVisibility(true)
             }
             false -> {
                 cv_search.animate().translationY(0f)
                 setMenuVisibility(false)
+                searchViewBehaviour()
             }
+        }
+    }
+
+    private fun searchViewBehaviour() {
+        search_view.apply {
+            isIconified = false
+            requestFocus()
+            callOnClick()
+            this.openKeyboard()
+            queryHint = "Search a movie"
         }
     }
 

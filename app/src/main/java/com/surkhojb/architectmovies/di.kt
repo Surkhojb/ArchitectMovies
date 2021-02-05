@@ -10,6 +10,7 @@ import com.surkhojb.architectmovies.common.PermissionManager
 import com.surkhojb.architectmovies.common.PlayServicesDataSource
 import com.surkhojb.architectmovies.data.local.DataStoreDataSource
 import com.surkhojb.architectmovies.data.remote.model.Movie
+import com.surkhojb.architectmovies.data.remote.retrofit.MovieDb
 import com.surkhojb.architectmovies.ui.MainActivity
 import com.surkhojb.architectmovies.ui.detail.DetailActivity
 import com.surkhojb.architectmovies.ui.detail.DetailViewModel
@@ -25,6 +26,8 @@ import com.surkhojb.data.datasources.*
 import com.surkhojb.data.repositories.MoviesRepository
 import com.surkhojb.data.repositories.RegionRepository
 import com.surkhojb.usecases.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -32,6 +35,8 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+
+private val BASE_URL = "https://api.themoviedb.org/3/"
 
 fun Application.initKoin() {
     startKoin {
@@ -50,39 +55,42 @@ fun Application.initKoin() {
             DataStoreSource(settings)
         }
         factory<PreferencesDataSource> { DataStoreDataSource(get())}
-        factory<RemoteDataSource> { TMDBDataSource() }
+        factory<RemoteDataSource> { TMDBDataSource(get()) }
+        single(named("baseUrl")) { BASE_URL }
+        single { MovieDb(get(named("baseUrl"))) }
         factory<LocationDataSource> { PlayServicesDataSource(get())}
         factory<PermissionChecker> { PermissionManager(get()) }
+        single<CoroutineDispatcher> { Dispatchers.Main }
     }
 
-    private val dataModule = module {
+    val dataModule = module {
         factory { RegionRepository(get(), get()) }
         factory { MoviesRepository(get(), get(), get(), get()) }
     }
 
     private val scopeModules = module {
         scope(named<TopRatedFragment>()){
-            viewModel { TopRatedViewModel(get()) }
+            viewModel { TopRatedViewModel(get(),get()) }
             scoped { GetTopRatedMovies(get()) }
         }
         scope(named<NewestFragment>()) {
-            viewModel { NewestViewModel(get()) }
+            viewModel { NewestViewModel(get(),get()) }
             scoped { GetNewestMovies(get()) }
         }
 
         scope(named<SearchFragment>()) {
-            viewModel { SearchViewModel(get(),get()) }
+            viewModel { SearchViewModel(get(),get(),get()) }
             scoped { SearchMovie(get()) }
             scoped { LastSearchs(get())}
         }
 
         scope(named<FavoritesFragment>()) {
-            viewModel { FavoriteViewModel(get()) }
+            viewModel { FavoriteViewModel(get(),get()) }
             scoped { GetFavorites(get()) }
         }
 
         scope(named<DetailActivity>()) {
-            viewModel { DetailViewModel(get(), get(), get()) }
+            viewModel { DetailViewModel(get(), get(), get(),get()) }
             scoped { GetMovieCast(get()) }
             scoped { GetMovieById(get()) }
             scoped { SaveMovieAsFavorite(get()) }

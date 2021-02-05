@@ -52,7 +52,7 @@ fun DomainMovie.toRoomMovie(type: String = "top_rated"): RoomMovie = RoomMovie(
     voteAverage,
     voteCount,
     favorite,
-    RoomMovieCast(emptyList()),
+    RoomMovieCast(this.cast?.cast?.map { it.mapToRoomCast()} ?: emptyList()),
     movieType = type
 )
 
@@ -69,10 +69,23 @@ fun RoomMovie.mapToDomainMovie(): DomainMovie = DomainMovie(
     voteAverage,
     voteCount,
     favorite,
-    DomainMovieCast(emptyList())
+    DomainMovieCast(this.cast?.cast?.map { it.mapToDomainCast() } ?: emptyList())
 )
 
 fun RoomCast.mapToDomainCast() = DomainCast(
+    adult,
+    character,
+    credit_id,
+    gender, id,
+    known_for_department,
+    name,
+    order,
+    original_name,
+    popularity,
+    profile_path
+)
+
+fun DomainCast.mapToRoomCast() = RoomCast(
     adult,
     character,
     credit_id,
